@@ -1,0 +1,24 @@
+import { Router } from 'express';
+import {
+  getAllSubjects,
+  getStudentSubjects,
+  createSubject,
+  toggleStatus,
+  getSubjectSummary,
+  createSubjectSchema,
+  toggleStatusSchema,
+} from '../controllers/subjectController.js';
+import { validate } from '../middleware/validate.js';
+import { requireAuth, requireRole } from '../middleware/auth.js';
+
+const router = Router();
+
+router.use(requireAuth);
+
+router.get('/', requireRole('admin', 'teacher'), getAllSubjects);
+router.get('/student', requireRole('student', 'admin', 'teacher'), getStudentSubjects);
+router.post('/', requireRole('admin', 'teacher'), validate(createSubjectSchema), createSubject);
+router.patch('/:id/status', requireRole('admin', 'teacher'), validate(toggleStatusSchema), toggleStatus);
+router.get('/:id/summary', requireRole('admin', 'teacher'), getSubjectSummary);
+
+export default router;
