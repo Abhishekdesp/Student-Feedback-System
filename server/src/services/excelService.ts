@@ -189,4 +189,151 @@ export class ExcelService {
     const uint8Array = await workbook.xlsx.writeBuffer();
     return Buffer.from(uint8Array);
   }
+
+  public static async generateTeacherMultiSheetReport(analyticsData: {
+    facultyName: string;
+    facultyDesignation: string;
+    facultyEmail: string;
+    subjectCode: string;
+    scheme: string;
+    semester: string;
+    academicYear: string;
+    overallRating: number;
+    totalResponses: number;
+    totalStudents: number;
+    responseRate: number;
+    questionWise: {
+      questionText: string;
+      avgRating: number;
+      responsesCount: number;
+      distribution: { 5: number; 4: number; 3: number; 2: number; 1: number };
+    }[];
+    ratingDistribution: {
+      stars: number;
+      count: number;
+      percentage: number;
+    }[];
+    sentimentSummary: {
+      positivePct: number;
+      neutralPct: number;
+      constructivePct: number;
+      positiveCount: number;
+      neutralCount: number;
+      constructiveCount: number;
+    };
+    anonymousComments: {
+      comment: string;
+      sentiment: string;
+      submittedAt: Date | string;
+    }[];
+  }): Promise<Buffer> {
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = 'Student Feedback System';
+    workbook.created = new Date();
+
+    // Sheet 1: Overview & Faculty Info
+    const sheet1 = workbook.addWorksheet('Overview');
+    sheet1.columns = [
+      { header: 'Property', key: 'prop', width: 30 },
+      { header: 'Value', key: 'val', width: 40 },
+    ];
+    sheet1.getRow(1).font = { bold: true, size: 12 };
+    sheet1.addRows([
+      { prop: 'Faculty Name', val: analyticsData.facultyName },
+      { prop: 'Designation', val: analyticsData.facultyDesignation },
+      { prop: 'Faculty Email', val: analyticsData.facultyEmail },
+      { prop: 'Subject Code', val: analyticsData.subjectCode },
+      { prop: 'Scheme', val: analyticsData.scheme },
+      { prop: 'Semester', val: analyticsData.semester },
+      { prop: 'Academic Year', val: analyticsData.academicYear },
+      { prop: 'Overall Rating', val: `${analyticsData.overallRating} / 5.0` },
+      { prop: 'Total Responses', val: analyticsData.totalResponses },
+      { prop: 'Total Students', val: analyticsData.totalStudents },
+      { prop: 'Response Rate', val: `${analyticsData.responseRate}%` },
+    ]);
+
+    // Sheet 2: Question-Wise Ratings
+    const sheet2 = workbook.addWorksheet('Question Ratings');
+    sheet2.columns = [
+      { header: '#', key: 'num', width: 6 },
+      { header: 'Question Text', key: 'text', width: 50 },
+      { header: 'Avg Rating', key: 'avg', width: 12 },
+      { header: 'Responses', key: 'count', width: 12 },
+      { header: '5 Stars (Excellent)', key: 's5', width: 18 },
+      { header: '4 Stars (Very Good)', key: 's4', width: 18 },
+      { header: '3 Stars (Good)', key: 's3', width: 15 },
+      { header: '2 Stars (Poor)', key: 's2', width: 15 },
+      { header: '1 Star (Bad)', key: 's1', width: 15 },
+    ];
+    sheet2.getRow(1).font = { bold: true };
+    analyticsData.questionWise.forEach((q, idx) => {
+      sheet2.addRow({
+        num: idx + 1,
+        text: q.questionText,
+        avg: q.avgRating,
+        count: q.responsesCount,
+        s5: q.distribution[5] || 0,
+        s4: q.distribution[4] || 0,
+        s3: q.distribution[3] || 0,
+        s2: q.distribution[2] || 0,
+        s1: q.distribution[1] || 0,
+      });
+    });
+
+    // Sheet 3: Rating Distribution
+    const sheet3 = workbook.addWorksheet('Rating Distribution');
+    sheet3.columns = [
+      { header: 'Rating Star', key: 'star', width: 15 },
+      { header: 'Response Count', key: 'count', width: 18 },
+      { header: 'Percentage (%)', key: 'pct', width: 18 },
+    ];
+    sheet3.getRow(1).font = { bold: true };
+    analyticsData.ratingDistribution.forEach((rd) => {
+      sheet3.addRow({
+        star: `${rd.stars} Stars`,
+        count: rd.count,
+        pct: `${rd.percentage}%`,
+      });
+    });
+
+    // Sheet 4: Sentiment Summary
+    const sheet4 = workbook.addWorksheet('Sentiment Summary');
+    sheet4.columns = [
+      { header: 'Sentiment Category', key: 'cat', width: 25 },
+      { header: 'Count', key: 'count', width: 15 },
+      { header: 'Percentage (%)', key: 'pct', width: 18 },
+    ];
+    sheet4.getRow(1).font = { bold: true };
+    sheet4.addRows([
+      { cat: 'Positive', count: analyticsData.sentimentSummary.positiveCount, pct: `${analyticsData.sentimentSummary.positivePct}%` },
+      { cat: 'Neutral', count: analyticsData.sentimentSummary.neutralCount, pct: `${analyticsData.sentimentSummary.neutralPct}%` },
+      { cat: 'Constructive / Growth', count: analyticsData.sentimentSummary.constructiveCount, pct: `${analyticsData.sentimentSummary.constructivePct}%` },
+    ]);
+
+    // Sheet 5: Anonymous Comments
+    const sheet5 = workbook.addWorksheet('Anonymous Comments');
+    sheet5.columns = [
+      { header: '#', key: 'num', width: 6 },
+      { header: 'Anonymous Student Feedback', key: 'comment', width: 60 },
+      { header: 'Sentiment', key: 'sentiment', width: 15 },
+      { header: 'Submitted Date', key: 'date', width: 18 },
+    ];
+    sheet5.getRow(1).font = { bold: true };
+
+    if (analyticsData.anonymousComments.length === 0) {
+      sheet5.addRow({ num: 1, comment: 'No student comments submitted yet.', sentiment: 'N/A', date: 'N/A' });
+    } else {
+      analyticsData.anonymousComments.forEach((c, idx) => {
+        sheet5.addRow({
+          num: idx + 1,
+          comment: c.comment,
+          sentiment: c.sentiment,
+          date: c.submittedAt ? new Date(c.submittedAt).toLocaleDateString() : 'N/A',
+        });
+      });
+    }
+
+    const uint8Array = await workbook.xlsx.writeBuffer();
+    return Buffer.from(uint8Array);
+  }
 }

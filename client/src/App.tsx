@@ -12,6 +12,7 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { AddFaculty } from './pages/AddFaculty';
 import { Questions } from './pages/Questions';
 import { Settings } from './pages/Settings';
+import { TeacherDashboard } from './pages/TeacherDashboard';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +27,9 @@ const RootRedirect: React.FC = () => {
   const { user, loading } = useAuthContext();
   if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
-  return user.role === 'student' ? <Navigate to="/dashboard" replace /> : <Navigate to="/admin" replace />;
+  if (user.role === 'student') return <Navigate to="/dashboard" replace />;
+  if (user.role === 'teacher') return <Navigate to="/teacher" replace />;
+  return <Navigate to="/admin" replace />;
 };
 
 export const App: React.FC = () => {
@@ -44,6 +47,11 @@ export const App: React.FC = () => {
             <Route element={<ProtectedRoute allowedRoles={['student']} />}>
               <Route path="/dashboard" element={<StudentDashboard />} />
               <Route path="/survey/:subjectId" element={<SurveyForm />} />
+            </Route>
+
+            {/* Teacher Protected Routes */}
+            <Route element={<ProtectedRoute allowedRoles={['teacher', 'admin']} />}>
+              <Route path="/teacher" element={<TeacherDashboard />} />
             </Route>
 
             {/* Admin / Teacher Protected Routes */}

@@ -13,6 +13,7 @@ import responseRoutes from './routes/responseRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
 import settingRoutes from './routes/settingRoutes.js';
 import exportRoutes from './routes/exportRoutes.js';
+import teacherRoutes from './routes/teacherRoutes.js';
 import { seedDemoData } from './seed/seedDemoData.js';
 import { requireAuth, requireRole } from './middleware/auth.js';
 const app = express();
@@ -46,6 +47,7 @@ app.use('/api/responses', responseRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/settings', settingRoutes);
 app.use('/api/export', exportRoutes);
+app.use('/api/teacher', teacherRoutes);
 // Seed Endpoint (Admin only)
 app.post('/api/seed', requireAuth, requireRole('admin', 'teacher'), async (_req, res, next) => {
     try {

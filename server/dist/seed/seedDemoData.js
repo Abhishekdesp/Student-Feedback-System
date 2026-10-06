@@ -7,9 +7,19 @@ import { SystemSetting } from '../models/SystemSetting.js';
 import { AISentimentService } from '../services/aiSentimentService.js';
 export async function seedDemoData() {
     console.log('🌱 Starting Demo Data Seeding...');
-    // 1. Admin User
+    // 1. Admin & Teacher Users
     const adminPasswordHash = await bcrypt.hash('admin123', 10);
-    await User.findOneAndUpdate({ username: 'admin' }, { username: 'admin', passwordHash: adminPasswordHash, role: 'admin' }, { upsert: true, new: true });
+    await User.findOneAndUpdate({ username: 'admin' }, { username: 'admin', email: 'admin@college.edu', passwordHash: adminPasswordHash, role: 'admin' }, { upsert: true, new: true });
+    const teacherPasswordHash = await bcrypt.hash('teacher123', 10);
+    const sampleTeachers = [
+        { username: 'rajesh.sharma', email: 'rajesh.sharma@college.edu' },
+        { username: 'anita.roy', email: 'anita.roy@college.edu' },
+        { username: 'vikram.mehta', email: 'vikram.mehta@college.edu' },
+        { username: 'neha.gupta', email: 'neha.gupta@college.edu' },
+    ];
+    for (const t of sampleTeachers) {
+        await User.findOneAndUpdate({ username: t.username }, { username: t.username, email: t.email, passwordHash: teacherPasswordHash, role: 'teacher' }, { upsert: true, new: true });
+    }
     // 2. Questions
     const sampleQuestions = [
         'Punctuality and regularity in taking lectures and practicals?',

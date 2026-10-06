@@ -19,19 +19,19 @@ export const requireAuth = (req, res, next) => {
         return;
     }
 };
-export const requireRole = (...allowedRoles) => {
+export const authorizeRoles = (...allowedRoles) => {
     return (req, res, next) => {
         if (!req.user) {
-            res.status(401).json({ success: false, message: 'Authentication required.' });
+            res.status(401).json({ success: false, message: 'Authentication required. Please log in.' });
             return;
         }
-        // Role mapping: 'teacher' and 'admin' are equivalent in legacy functionality for admin pages, but check explicit role
         const userRole = req.user.role;
         const hasRole = allowedRoles.includes(userRole);
         if (!hasRole) {
-            res.status(403).json({ success: false, message: `Access denied for role: ${userRole}` });
+            res.status(403).json({ success: false, message: `You do not have permission to access this resource` });
             return;
         }
         next();
     };
 };
+export const requireRole = authorizeRoles;

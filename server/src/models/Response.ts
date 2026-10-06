@@ -84,5 +84,6 @@ const responseSchema = new Schema<IResponse>(
 
 // Compound index to ensure one submission per student per subject
 responseSchema.index({ studentId: 1, subjectId: 1 }, { unique: true });
+responseSchema.index({ subjectId: 1, submittedAt: -1 });
 
 export const Response = model<IResponse>('Response', responseSchema);

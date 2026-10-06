@@ -7,6 +7,7 @@ export interface IStudentDetails {
 
 export interface IUser extends Document {
   username: string;
+  email?: string;
   passwordHash: string;
   role: 'admin' | 'teacher' | 'student';
   studentDetails?: IStudentDetails;
@@ -22,6 +23,12 @@ const userSchema = new Schema<IUser>(
       unique: true,
       index: true,
       trim: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      index: true,
     },
     passwordHash: {
       type: String,

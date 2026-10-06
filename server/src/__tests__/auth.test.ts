@@ -141,7 +141,7 @@ describe('Auth API & Middleware Integration Tests', () => {
 
       expect(res.status).toBe(403);
       expect(res.body.success).toBe(false);
-      expect(res.body.message).toContain('Access denied for role: student');
+      expect(res.body.message).toContain('permission');
     });
 
     it('should allow admin to access admin routes', async () => {

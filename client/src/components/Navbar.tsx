@@ -28,11 +28,20 @@ export const Navbar: React.FC = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            {isAdminOrTeacher ? (
+            {user.role === 'teacher' ? (
+              <Link to="/teacher" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-800 text-blue-300">
+                <LayoutDashboard className="h-4 w-4" />
+                <span>My Teacher Portal</span>
+              </Link>
+            ) : user.role === 'admin' ? (
               <>
                 <Link to="/admin" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-800">
                   <LayoutDashboard className="h-4 w-4" />
-                  <span>Dashboard</span>
+                  <span>Admin Dashboard</span>
+                </Link>
+                <Link to="/teacher" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-800 text-blue-300">
+                  <LayoutDashboard className="h-4 w-4" />
+                  <span>Teacher Portal</span>
                 </Link>
                 <Link to="/admin/faculty" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-800">
                   <Users className="h-4 w-4" />
@@ -42,7 +51,7 @@ export const Navbar: React.FC = () => {
                   <HelpCircle className="h-4 w-4" />
                   <span>Questions</span>
                 </Link>
-                <Link to="/admin/settings" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-blue-400 hover:bg-slate-800">
+                <Link to="/admin/settings" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-800">
                   <Settings className="h-4 w-4" />
                   <span>Settings</span>
                 </Link>

@@ -28,6 +28,7 @@ const subjectSchema = new Schema<ISubject>(
       type: String,
       required: true,
       trim: true,
+      index: true,
     },
     facultyDesignation: {
       type: String,
@@ -38,6 +39,8 @@ const subjectSchema = new Schema<ISubject>(
       type: String,
       required: true,
       trim: true,
+      lowercase: true,
+      index: true,
     },
     facultyMobile: {
       type: String,

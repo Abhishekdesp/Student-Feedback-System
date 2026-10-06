@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { getAllQuestions, createQuestion, deleteQuestion, createQuestionSchema, } from '../controllers/questionController.js';
 import { validate } from '../middleware/validate.js';
-import { requireAuth, requireRole } from '../middleware/auth.js';
+import { requireAuth, authorizeRoles } from '../middleware/auth.js';
 const router = Router();
 router.use(requireAuth);
-router.get('/', getAllQuestions); // Accessible by student (during survey) and admin
-router.post('/', requireRole('admin', 'teacher'), validate(createQuestionSchema), createQuestion);
-router.delete('/:id', requireRole('admin', 'teacher'), deleteQuestion);
+router.get('/', authorizeRoles('student', 'teacher', 'admin'), getAllQuestions);
+router.post('/', authorizeRoles('admin'), validate(createQuestionSchema), createQuestion);
+router.delete('/:id', authorizeRoles('admin'), deleteQuestion);
 export default router;
