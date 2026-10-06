@@ -20,7 +20,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     res.cookie('token', token, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
@@ -39,7 +39,7 @@ export const logout = async (_req: Request, res: Response): Promise<void> => {
   res.clearCookie('token', {
     httpOnly: true,
     secure: env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
   });
   res.status(200).json({
     success: true,

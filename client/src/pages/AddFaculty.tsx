@@ -90,18 +90,16 @@ export const AddFaculty: React.FC = () => {
           <div className="flex space-x-2 bg-slate-100 p-1 rounded-lg">
             <button
               onClick={() => setActiveTab('add')}
-              className={`flex items-center space-x-1.5 px-4 py-2 text-sm font-semibold rounded-md transition ${
-                activeTab === 'add' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`flex items-center space-x-1.5 px-4 py-2 text-sm font-semibold rounded-md transition ${activeTab === 'add' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                }`}
             >
               <Plus className="h-4 w-4" />
               <span>Add Faculty</span>
             </button>
             <button
               onClick={() => setActiveTab('directory')}
-              className={`flex items-center space-x-1.5 px-4 py-2 text-sm font-semibold rounded-md transition ${
-                activeTab === 'directory' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`flex items-center space-x-1.5 px-4 py-2 text-sm font-semibold rounded-md transition ${activeTab === 'directory' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                }`}
             >
               <Users className="h-4 w-4" />
               <span>Directory ({subjects?.length || 0})</span>
@@ -111,11 +109,10 @@ export const AddFaculty: React.FC = () => {
 
         {message && (
           <div
-            className={`mb-6 p-4 rounded-lg text-sm border ${
-              message.type === 'success'
+            className={`mb-6 p-4 rounded-lg text-sm border ${message.type === 'success'
                 ? 'bg-green-50 border-green-200 text-green-700'
                 : 'bg-red-50 border-red-200 text-red-700'
-            }`}
+              }`}
           >
             {message.text}
           </div>
