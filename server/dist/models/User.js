@@ -7,6 +7,10 @@ const userSchema = new Schema({
         index: true,
         trim: true,
     },
+    name: {
+        type: String,
+        trim: true,
+    },
     email: {
         type: String,
         trim: true,
@@ -21,6 +25,18 @@ const userSchema = new Schema({
         type: String,
         enum: ['admin', 'teacher', 'student'],
         required: true,
+    },
+    designation: {
+        type: String,
+        trim: true,
+    },
+    mobile: {
+        type: String,
+        trim: true,
+    },
+    department: {
+        type: String,
+        trim: true,
     },
     studentDetails: {
         academicYear: {

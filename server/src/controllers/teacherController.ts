@@ -72,3 +72,32 @@ export async function exportSubjectReport(req: AuthenticatedRequest, res: Respon
     next(error);
   }
 }
+
+export async function getAllFaculty(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const faculty = await TeacherService.getAllFaculty();
+    res.status(200).json({ success: true, faculty });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function createFaculty(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const faculty = await TeacherService.createFaculty(req.body);
+    res.status(201).json({ success: true, message: 'Faculty member created successfully!', faculty });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteFaculty(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const id = req.params.id as string;
+    const result = await TeacherService.deleteFaculty(id);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+

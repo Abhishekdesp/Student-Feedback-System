@@ -1,16 +1,21 @@
+import { Types } from 'mongoose';
+import bcrypt from 'bcrypt';
 import { Subject, ISubject } from '../models/Subject.js';
 import { Response } from '../models/Response.js';
 import { Question } from '../models/Question.js';
+import { User } from '../models/User.js';
 import { SystemSetting } from '../models/SystemSetting.js';
 import { AISentimentService } from './aiSentimentService.js';
+import { CacheService } from './cacheService.js';
 import { AppError } from '../middleware/errorHandler.js';
 
 export interface CreateSubjectInput {
   code: string;
-  facultyName: string;
-  facultyDesignation: string;
-  facultyEmail: string;
-  facultyMobile: string;
+  teacherId?: string;
+  facultyName?: string;
+  facultyDesignation?: string;
+  facultyEmail?: string;
+  facultyMobile?: string;
   scheme: string;
   semester: string;
   academicYear: 'First' | 'Second' | 'Third';
@@ -30,17 +35,98 @@ export class SubjectService {
     const code = input.code.trim().toUpperCase();
     const existing = await Subject.findOne({ code });
 
+    let teacher: any = null;
+    if (input.teacherId && Types.ObjectId.isValid(input.teacherId)) {
+      teacher = await User.findOne({ _id: input.teacherId, role: 'teacher' });
+      if (!teacher) {
+        throw new AppError('Selected faculty member does not exist or is not a registered teacher.', 404);
+      }
+    } else if (input.facultyEmail || input.facultyName) {
+      // Lookup or link existing teacher
+      teacher = await User.findOne({
+        role: 'teacher',
+        $or: [
+          ...(input.facultyEmail ? [{ email: input.facultyEmail.toLowerCase().trim() }] : []),
+          ...(input.facultyName
+            ? [
+                { name: input.facultyName.trim() },
+                { username: input.facultyName.toLowerCase().replace(/[^a-z0-9]/g, '.') },
+              ]
+            : []),
+        ],
+      });
+
+      if (!teacher && (input.facultyName || input.facultyEmail)) {
+        const passwordHash = await bcrypt.hash('teacher123', 10);
+        const name = input.facultyName?.trim() || code;
+        const username = (input.facultyEmail?.split('@')[0] || name).toLowerCase().replace(/[^a-z0-9]/g, '.');
+        teacher = await User.findOneAndUpdate(
+          { username },
+          {
+            username,
+            name,
+            email: input.facultyEmail?.toLowerCase().trim() || undefined,
+            passwordHash,
+            role: 'teacher',
+            designation: input.facultyDesignation || 'Professor',
+            mobile: input.facultyMobile || '',
+          },
+          { upsert: true, new: true }
+        );
+      }
+    }
+
+    const facultyName = teacher?.name || input.facultyName || 'Faculty';
+    const facultyEmail = teacher?.email || input.facultyEmail || '';
+    const facultyDesignation = teacher?.designation || input.facultyDesignation || 'Professor';
+    const facultyMobile = teacher?.mobile || input.facultyMobile || '';
+
     if (existing) {
+      if (input.teacherId && teacher) {
+        existing.teacherId = teacher._id;
+        existing.facultyName = facultyName;
+        existing.facultyDesignation = facultyDesignation;
+        existing.facultyEmail = facultyEmail;
+        existing.facultyMobile = facultyMobile;
+        existing.scheme = input.scheme;
+        existing.semester = input.semester;
+        existing.academicYear = input.academicYear;
+        if (input.status !== undefined) existing.status = input.status;
+        await existing.save();
+        await CacheService.delByPattern('teacher:*');
+        return existing;
+      }
       throw new AppError(`Subject code ${code} already exists!`, 400);
     }
 
     const subject = await Subject.create({
-      ...input,
       code,
+      teacherId: teacher?._id,
+      facultyName,
+      facultyDesignation,
+      facultyEmail,
+      facultyMobile,
+      scheme: input.scheme,
+      semester: input.semester,
+      academicYear: input.academicYear,
       status: input.status !== undefined ? input.status : 1,
     });
 
+    await CacheService.delByPattern('teacher:*');
     return subject;
+  }
+
+  static async deleteSubject(subjectId: string) {
+    if (!Types.ObjectId.isValid(subjectId)) {
+      throw new AppError('Invalid subject ID format.', 400);
+    }
+    const subject = await Subject.findByIdAndDelete(subjectId);
+    if (!subject) {
+      throw new AppError('Subject not found', 404);
+    }
+    await CacheService.delByPattern('teacher:*');
+    await CacheService.delByPattern('subject:*');
+    return { success: true, message: `Subject ${subject.code} deleted successfully.` };
   }
 
   static async toggleStatus(subjectId: string, status: number) {

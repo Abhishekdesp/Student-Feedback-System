@@ -3,10 +3,11 @@ import { SubjectService } from '../services/subjectService.js';
 export const createSubjectSchema = z.object({
     body: z.object({
         code: z.string().min(1, 'Subject code is required'),
-        facultyName: z.string().min(1, 'Faculty name is required'),
-        facultyDesignation: z.string().min(1, 'Faculty designation is required'),
-        facultyEmail: z.string().email('Invalid email address'),
-        facultyMobile: z.string().min(1, 'Mobile number is required'),
+        teacherId: z.string().optional(),
+        facultyName: z.string().optional(),
+        facultyDesignation: z.string().optional(),
+        facultyEmail: z.string().optional(),
+        facultyMobile: z.string().optional(),
         scheme: z.string().min(1, 'Scheme is required'),
         semester: z.string().min(1, 'Semester is required'),
         academicYear: z.enum(['First', 'Second', 'Third']),
@@ -65,6 +66,16 @@ export const getSubjectSummary = async (req, res, next) => {
         const id = req.params.id;
         const summary = await SubjectService.getSubjectFeedbackSummary(id);
         res.status(200).json({ success: true, summary });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const deleteSubject = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const result = await SubjectService.deleteSubject(id);
+        res.status(200).json(result);
     }
     catch (error) {
         next(error);

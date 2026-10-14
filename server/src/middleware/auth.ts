@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
+import { CacheService } from '../services/cacheService.js';
 
 export interface JwtPayload {
   userId: string;
@@ -12,7 +13,7 @@ export interface AuthenticatedRequest extends Request {
   user?: JwtPayload;
 }
 
-export const requireAuth = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+export const requireAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     let token = req.cookies?.token;
 
@@ -22,6 +23,11 @@ export const requireAuth = (req: AuthenticatedRequest, res: Response, next: Next
 
     if (!token) {
       res.status(401).json({ success: false, message: 'Authentication required. Please log in.' });
+      return;
+    }
+
+    if (await CacheService.isTokenBlacklisted(token)) {
+      res.status(401).json({ success: false, message: 'Token has been revoked. Please log in again.' });
       return;
     }
 

@@ -72,3 +72,31 @@ export async function exportSubjectReport(req, res, next) {
         next(error);
     }
 }
+export async function getAllFaculty(_req, res, next) {
+    try {
+        const faculty = await TeacherService.getAllFaculty();
+        res.status(200).json({ success: true, faculty });
+    }
+    catch (error) {
+        next(error);
+    }
+}
+export async function createFaculty(req, res, next) {
+    try {
+        const faculty = await TeacherService.createFaculty(req.body);
+        res.status(201).json({ success: true, message: 'Faculty member created successfully!', faculty });
+    }
+    catch (error) {
+        next(error);
+    }
+}
+export async function deleteFaculty(req, res, next) {
+    try {
+        const id = req.params.id;
+        const result = await TeacherService.deleteFaculty(id);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        next(error);
+    }
+}

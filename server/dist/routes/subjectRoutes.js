@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllSubjects, getStudentSubjects, createSubject, toggleStatus, getSubjectSummary, createSubjectSchema, toggleStatusSchema, } from '../controllers/subjectController.js';
+import { getAllSubjects, getStudentSubjects, createSubject, toggleStatus, getSubjectSummary, deleteSubject, createSubjectSchema, toggleStatusSchema, } from '../controllers/subjectController.js';
 import { validate } from '../middleware/validate.js';
 import { requireAuth, authorizeRoles } from '../middleware/auth.js';
 const router = Router();
@@ -9,4 +9,5 @@ router.get('/student', authorizeRoles('student', 'admin'), getStudentSubjects);
 router.post('/', authorizeRoles('admin'), validate(createSubjectSchema), createSubject);
 router.patch('/:id/status', authorizeRoles('admin'), validate(toggleStatusSchema), toggleStatus);
 router.get('/:id/summary', authorizeRoles('admin'), getSubjectSummary);
+router.delete('/:id', authorizeRoles('admin'), deleteSubject);
 export default router;

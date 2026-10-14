@@ -1,0 +1,66 @@
+import { Redis } from 'ioredis';
+import { env } from './env.js';
+let isRedisConnected = false;
+const redisOptions = {
+    maxRetriesPerRequest: null, // Required by BullMQ
+    enableReadyCheck: true,
+    lazyConnect: true,
+    retryStrategy(times) {
+        if (times > 5) {
+            // Don't flood reconnect logs if Redis is absent in CI/test
+            return null;
+        }
+        return Math.min(times * 1000, 3000);
+    },
+};
+export const redisClient = new Redis(env.REDIS_URL, redisOptions);
+redisClient.on('connect', () => {
+    isRedisConnected = true;
+    console.log('✅ Connected to Redis successfully.');
+});
+redisClient.on('ready', () => {
+    isRedisConnected = true;
+});
+redisClient.on('error', (err) => {
+    isRedisConnected = false;
+    // Non-fatal warning so missing Redis in testing or restricted environments doesn't crash the server
+    if (env.NODE_ENV !== 'test') {
+        console.warn('⚠️  Redis connection warning:', err.message);
+    }
+});
+redisClient.on('close', () => {
+    isRedisConnected = false;
+});
+export async function initRedis() {
+    if (env.ENABLE_REDIS === 'false') {
+        return false;
+    }
+    if (redisClient.status === 'ready' || redisClient.status === 'connect') {
+        isRedisConnected = true;
+        return true;
+    }
+    try {
+        if (redisClient.status === 'wait') {
+            await redisClient.connect();
+        }
+        isRedisConnected = true;
+        return true;
+    }
+    catch (err) {
+        if (redisClient.status === 'ready' || redisClient.status === 'connect') {
+            isRedisConnected = true;
+            return true;
+        }
+        isRedisConnected = false;
+        if (env.NODE_ENV !== 'test') {
+            console.warn('⚠️  Redis could not connect on startup, operating in fallback mode:', err.message);
+        }
+        return false;
+    }
+}
+export function isRedisAvailable() {
+    return ((isRedisConnected || redisClient.status === 'ready') &&
+        redisClient.status !== 'close' &&
+        redisClient.status !== 'end' &&
+        redisClient.status !== 'wait');
+}

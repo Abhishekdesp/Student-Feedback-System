@@ -45,7 +45,7 @@ export const Navbar: React.FC = () => {
                 </Link>
                 <Link to="/admin/faculty" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-800">
                   <Users className="h-4 w-4" />
-                  <span>Faculty Directory</span>
+                  <span>Faculty & Subjects</span>
                 </Link>
                 <Link to="/admin/questions" className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-800">
                   <HelpCircle className="h-4 w-4" />

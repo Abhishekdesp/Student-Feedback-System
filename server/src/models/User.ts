@@ -7,9 +7,13 @@ export interface IStudentDetails {
 
 export interface IUser extends Document {
   username: string;
+  name?: string;
   email?: string;
   passwordHash: string;
   role: 'admin' | 'teacher' | 'student';
+  designation?: string;
+  mobile?: string;
+  department?: string;
   studentDetails?: IStudentDetails;
   createdAt: Date;
   updatedAt: Date;
@@ -22,6 +26,10 @@ const userSchema = new Schema<IUser>(
       required: true,
       unique: true,
       index: true,
+      trim: true,
+    },
+    name: {
+      type: String,
       trim: true,
     },
     email: {
@@ -38,6 +46,18 @@ const userSchema = new Schema<IUser>(
       type: String,
       enum: ['admin', 'teacher', 'student'],
       required: true,
+    },
+    designation: {
+      type: String,
+      trim: true,
+    },
+    mobile: {
+      type: String,
+      trim: true,
+    },
+    department: {
+      type: String,
+      trim: true,
     },
     studentDetails: {
       academicYear: {

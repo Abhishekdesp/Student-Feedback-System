@@ -12,13 +12,50 @@ export async function seedDemoData() {
     await User.findOneAndUpdate({ username: 'admin' }, { username: 'admin', email: 'admin@college.edu', passwordHash: adminPasswordHash, role: 'admin' }, { upsert: true, new: true });
     const teacherPasswordHash = await bcrypt.hash('teacher123', 10);
     const sampleTeachers = [
-        { username: 'rajesh.sharma', email: 'rajesh.sharma@college.edu' },
-        { username: 'anita.roy', email: 'anita.roy@college.edu' },
-        { username: 'vikram.mehta', email: 'vikram.mehta@college.edu' },
-        { username: 'neha.gupta', email: 'neha.gupta@college.edu' },
+        {
+            username: 'rajesh.sharma',
+            name: 'Dr. Rajesh Sharma',
+            email: 'rajesh.sharma@college.edu',
+            designation: 'Professor & HOD',
+            mobile: '9876543210',
+            department: 'Computer Engineering',
+        },
+        {
+            username: 'anita.roy',
+            name: 'Prof. Anita Roy',
+            email: 'anita.roy@college.edu',
+            designation: 'Associate Professor',
+            mobile: '9876543211',
+            department: 'Information Technology',
+        },
+        {
+            username: 'vikram.mehta',
+            name: 'Dr. Vikram Mehta',
+            email: 'vikram.mehta@college.edu',
+            designation: 'Assistant Professor',
+            mobile: '9876543212',
+            department: 'Computer Engineering',
+        },
+        {
+            username: 'neha.gupta',
+            name: 'Prof. Neha Gupta',
+            email: 'neha.gupta@college.edu',
+            designation: 'Assistant Professor',
+            mobile: '9876543213',
+            department: 'Computer Engineering',
+        },
     ];
     for (const t of sampleTeachers) {
-        await User.findOneAndUpdate({ username: t.username }, { username: t.username, email: t.email, passwordHash: teacherPasswordHash, role: 'teacher' }, { upsert: true, new: true });
+        await User.findOneAndUpdate({ username: t.username }, {
+            username: t.username,
+            name: t.name,
+            email: t.email,
+            designation: t.designation,
+            mobile: t.mobile,
+            department: t.department,
+            passwordHash: teacherPasswordHash,
+            role: 'teacher',
+        }, { upsert: true, new: true });
     }
     // 2. Questions
     const sampleQuestions = [
@@ -86,12 +123,19 @@ export async function seedDemoData() {
     ];
     const createdSubjects = [];
     for (const f of sampleFaculty) {
+        const teacherUser = await User.findOne({ email: f.facultyEmail.toLowerCase() });
         let s = await Subject.findOne({ code: f.code });
         if (!s) {
-            s = await Subject.create(f);
+            s = await Subject.create({
+                ...f,
+                teacherId: teacherUser?._id,
+            });
         }
         else {
-            Object.assign(s, f);
+            Object.assign(s, {
+                ...f,
+                teacherId: teacherUser?._id || s.teacherId,
+            });
             await s.save();
         }
         createdSubjects.push(s);

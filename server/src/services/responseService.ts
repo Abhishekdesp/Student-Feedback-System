@@ -3,6 +3,8 @@ import { Subject } from '../models/Subject.js';
 import { SystemSetting } from '../models/SystemSetting.js';
 import { AISentimentService } from './aiSentimentService.js';
 import { AppError } from '../middleware/errorHandler.js';
+import { dispatchSentimentJob } from '../queues/sentimentQueue.js';
+import { CacheService } from './cacheService.js';
 
 export interface SubmitResponseInput {
   studentId: string;
@@ -30,9 +32,9 @@ export class ResponseService {
       throw new AppError(`Feedback for ${subject.code} has already been submitted.`, 400);
     }
 
-    // Process Sentiment if comment provided
+    // In automated integration test mode, resolve inline for synchronous test assertions
     let sentimentResult;
-    if (userComment && userComment.trim().length > 0) {
+    if (process.env.NODE_ENV === 'test' && userComment && userComment.trim().length > 0) {
       const setting = await SystemSetting.findOne({ key: 'use_external_ai' });
       const useExternalAi = setting ? setting.value === true || setting.value === '1' : true;
       sentimentResult = await AISentimentService.analyzeSentiment(userComment.trim(), useExternalAi);
@@ -53,6 +55,15 @@ export class ResponseService {
       submittedAt: new Date(),
     });
 
+    // Invalidate Redis dashboard cache so teachers/admins see updated ratings
+    await CacheService.delByPattern('teacher:*');
+    await CacheService.delByPattern('subject:*');
+
+    // In production/dev, enqueue asynchronous LLM sentiment analysis via BullMQ queue
+    if (!sentimentResult && userComment && userComment.trim().length > 0) {
+      await dispatchSentimentJob(newResponse._id.toString(), userComment);
+    }
+
     return newResponse;
   }
 
@@ -68,6 +79,8 @@ export class ResponseService {
     }
 
     const deleteResult = await Response.deleteMany({ subjectId });
+    await CacheService.delByPattern('teacher:*');
+    await CacheService.delByPattern('subject:*');
     return {
       message: `Database cleared successfully for ${subject.code}.`,
       deletedCount: deleteResult.deletedCount,

@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface ISubject extends Document {
   code: string;
@@ -6,6 +6,7 @@ export interface ISubject extends Document {
   facultyDesignation: string;
   facultyEmail: string;
   facultyMobile: string;
+  teacherId?: Types.ObjectId;
   scheme: string;
   semester: string;
   academicYear: 'First' | 'Second' | 'Third';
@@ -23,6 +24,11 @@ const subjectSchema = new Schema<ISubject>(
       index: true,
       uppercase: true,
       trim: true,
+    },
+    teacherId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      index: true,
     },
     facultyName: {
       type: String,

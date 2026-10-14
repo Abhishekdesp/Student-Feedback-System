@@ -8,6 +8,27 @@ export interface User {
   };
 }
 
+export interface FacultyMember {
+  _id: string;
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  designation: string;
+  mobile: string;
+  department: string;
+  role: 'teacher';
+  createdAt?: string;
+  assignedSubjects: {
+    _id: string;
+    code: string;
+    semester: string;
+    academicYear: 'First' | 'Second' | 'Third';
+    status: number;
+  }[];
+  assignedCount: number;
+}
+
 export interface Subject {
   _id: string;
   code: string;
@@ -15,6 +36,7 @@ export interface Subject {
   facultyDesignation: string;
   facultyEmail: string;
   facultyMobile: string;
+  teacherId?: string;
   scheme: string;
   semester: string;
   academicYear: 'First' | 'Second' | 'Third';

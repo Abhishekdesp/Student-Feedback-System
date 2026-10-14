@@ -1,0 +1,987 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1791292133979" clover="3.2.0">
+  <project timestamp="1791292133979" name="All files">
+    <metrics statements="849" coveredstatements="565" conditionals="300" coveredconditionals="110" methods="125" coveredmethods="83" elements="1274" coveredelements="758" complexity="0" loc="849" ncloc="849" packages="8" files="36" classes="36"/>
+    <package name="src">
+      <metrics statements="30" coveredstatements="21" conditionals="6" coveredconditionals="1" methods="3" coveredmethods="1"/>
+      <file name="app.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/app.ts">
+        <metrics statements="30" coveredstatements="21" conditionals="6" coveredconditionals="1" methods="3" coveredmethods="1"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="29" count="169" type="cond" truecount="1" falsecount="0"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="38" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="52" count="4" type="stmt"/>
+        <line num="53" count="4" type="stmt"/>
+        <line num="54" count="4" type="stmt"/>
+        <line num="55" count="4" type="stmt"/>
+        <line num="58" count="4" type="stmt"/>
+        <line num="64" count="4" type="stmt"/>
+        <line num="67" count="4" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="72" count="4" type="stmt"/>
+        <line num="73" count="4" type="stmt"/>
+        <line num="74" count="4" type="stmt"/>
+        <line num="75" count="4" type="stmt"/>
+        <line num="76" count="4" type="stmt"/>
+        <line num="77" count="4" type="stmt"/>
+        <line num="78" count="4" type="stmt"/>
+        <line num="79" count="4" type="stmt"/>
+        <line num="82" count="4" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="92" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.config">
+      <metrics statements="7" coveredstatements="5" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="env.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/config/env.ts">
+        <metrics statements="7" coveredstatements="5" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="18" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.controllers">
+      <metrics statements="172" coveredstatements="98" conditionals="36" coveredconditionals="5" methods="28" coveredmethods="17"/>
+      <file name="authController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/authController.ts">
+        <metrics statements="19" coveredstatements="14" conditionals="5" coveredconditionals="1" methods="3" coveredmethods="2"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="129" type="stmt"/>
+        <line num="17" count="129" type="stmt"/>
+        <line num="18" count="129" type="stmt"/>
+        <line num="20" count="127" type="stmt"/>
+        <line num="27" count="127" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="38" count="4" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+        <line num="51" count="3" type="stmt"/>
+        <line num="52" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+      </file>
+      <file name="exportController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/exportController.ts">
+        <metrics statements="14" coveredstatements="12" conditionals="3" coveredconditionals="1" methods="4" coveredmethods="4"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="16" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+      </file>
+      <file name="questionController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/questionController.ts">
+        <metrics statements="18" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+      </file>
+      <file name="responseController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/responseController.ts">
+        <metrics statements="27" coveredstatements="15" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="2"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="22" count="5" type="cond" truecount="0" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="28" count="5" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="45" count="4" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="50" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="62" count="4" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+      </file>
+      <file name="settingController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/settingController.ts">
+        <metrics statements="12" coveredstatements="2" conditionals="5" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+      </file>
+      <file name="studentController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/studentController.ts">
+        <metrics statements="15" coveredstatements="5" conditionals="9" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="7" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="9" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+      </file>
+      <file name="subjectController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/subjectController.ts">
+        <metrics statements="31" coveredstatements="18" conditionals="6" coveredconditionals="3" methods="5" coveredmethods="3"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="38" count="4" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="cond" truecount="3" falsecount="3"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="50" count="2" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="57" count="4" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="68" count="4" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+      </file>
+      <file name="teacherController.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/controllers/teacherController.ts">
+        <metrics statements="36" coveredstatements="28" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="5"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="28" count="5" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="5" type="stmt"/>
+        <line num="30" count="5" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="50" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
+        <line num="61" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="62" count="3" type="stmt"/>
+        <line num="63" count="3" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="72" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.middleware">
+      <metrics statements="49" coveredstatements="35" conditionals="23" coveredconditionals="5" methods="8" coveredmethods="7"/>
+      <file name="auth.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/middleware/auth.ts">
+        <metrics statements="25" coveredstatements="22" conditionals="7" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="40" type="stmt"/>
+        <line num="17" count="40" type="stmt"/>
+        <line num="19" count="40" type="cond" truecount="2" falsecount="2"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="23" count="40" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="28" count="38" type="stmt"/>
+        <line num="29" count="36" type="stmt"/>
+        <line num="30" count="36" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="38" count="64" type="stmt"/>
+        <line num="39" count="33" type="cond" truecount="0" falsecount="1"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="44" count="33" type="stmt"/>
+        <line num="45" count="33" type="stmt"/>
+        <line num="47" count="33" type="cond" truecount="1" falsecount="0"/>
+        <line num="48" count="6" type="stmt"/>
+        <line num="49" count="6" type="stmt"/>
+        <line num="52" count="27" type="stmt"/>
+        <line num="56" count="4" type="stmt"/>
+      </file>
+      <file name="errorHandler.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/middleware/errorHandler.ts">
+        <metrics statements="18" coveredstatements="8" conditionals="16" coveredconditionals="1" methods="3" coveredmethods="2"/>
+        <line num="8" count="10" type="stmt"/>
+        <line num="9" count="10" type="stmt"/>
+        <line num="10" count="10" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="20" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="24" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="25" count="10" type="stmt"/>
+        <line num="29" count="10" type="stmt"/>
+        <line num="32" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="45" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="46" count="0" type="cond" truecount="0" falsecount="5"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
+      </file>
+      <file name="validate.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/middleware/validate.ts">
+        <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="20" type="stmt"/>
+        <line num="6" count="136" type="stmt"/>
+        <line num="7" count="136" type="stmt"/>
+        <line num="12" count="136" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.models">
+      <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="Question.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/models/Question.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+      </file>
+      <file name="Response.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/models/Response.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="86" count="4" type="stmt"/>
+        <line num="87" count="4" type="stmt"/>
+        <line num="89" count="4" type="stmt"/>
+      </file>
+      <file name="Subject.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/models/Subject.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="75" count="4" type="stmt"/>
+      </file>
+      <file name="SystemSetting.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/models/SystemSetting.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+      </file>
+      <file name="User.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/models/User.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="58" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.routes">
+      <metrics statements="45" coveredstatements="45" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="authRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/authRoutes.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+      </file>
+      <file name="exportRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/exportRoutes.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+      </file>
+      <file name="questionRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/questionRoutes.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+      </file>
+      <file name="responseRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/responseRoutes.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+      </file>
+      <file name="settingRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/settingRoutes.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+      </file>
+      <file name="studentRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/studentRoutes.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+      </file>
+      <file name="subjectRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/subjectRoutes.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+      </file>
+      <file name="teacherRoutes.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/routes/teacherRoutes.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.seed">
+      <metrics statements="49" coveredstatements="0" conditionals="13" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="seedDemoData.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/seed/seedDemoData.ts">
+        <metrics statements="49" coveredstatements="0" conditionals="13" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="49" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="106" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="107" count="0" type="stmt"/>
+        <line num="109" count="0" type="stmt"/>
+        <line num="110" count="0" type="stmt"/>
+        <line num="112" count="0" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="126" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="128" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="164" count="0" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
+        <line num="166" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="168" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="170" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="172" count="0" type="stmt"/>
+        <line num="174" count="0" type="stmt"/>
+        <line num="179" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="180" count="0" type="stmt"/>
+        <line num="181" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="185" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="187" count="0" type="stmt"/>
+        <line num="201" count="0" type="stmt"/>
+        <line num="207" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.services">
+      <metrics statements="485" coveredstatements="349" conditionals="221" coveredconditionals="99" methods="83" coveredmethods="58"/>
+      <file name="aiSentimentService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/aiSentimentService.ts">
+        <metrics statements="50" coveredstatements="36" conditionals="23" coveredconditionals="7" methods="4" coveredmethods="4"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="26" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="50" count="8" type="stmt"/>
+        <line num="51" count="8" type="stmt"/>
+        <line num="63" count="8" type="stmt"/>
+        <line num="64" count="8" type="stmt"/>
+        <line num="65" count="8" type="stmt"/>
+        <line num="67" count="8" type="stmt"/>
+        <line num="74" count="2" type="stmt"/>
+        <line num="76" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="77" count="2" type="stmt"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="83" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="86" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="88" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="96" count="6" type="stmt"/>
+        <line num="100" count="2" type="stmt"/>
+        <line num="104" count="2" type="stmt"/>
+        <line num="105" count="2" type="stmt"/>
+        <line num="107" count="2" type="stmt"/>
+        <line num="108" count="2" type="stmt"/>
+        <line num="110" count="2" type="stmt"/>
+        <line num="111" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="112" count="3" type="stmt"/>
+        <line num="114" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="119" count="2" type="stmt"/>
+        <line num="120" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="128" count="2" type="stmt"/>
+        <line num="130" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="131" count="2" type="stmt"/>
+        <line num="136" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="143" count="0" type="stmt"/>
+      </file>
+      <file name="authService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/authService.ts">
+        <metrics statements="20" coveredstatements="16" conditionals="17" coveredconditionals="13" methods="2" coveredmethods="2"/>
+        <line num="15" count="129" type="stmt"/>
+        <line num="17" count="129" type="cond" truecount="2" falsecount="1"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="22" count="129" type="stmt"/>
+        <line num="26" count="129" type="cond" truecount="1" falsecount="0"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="31" count="128" type="cond" truecount="3" falsecount="0"/>
+        <line num="32" count="113" type="cond" truecount="2" falsecount="1"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="113" type="cond" truecount="4" falsecount="1"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="40" count="128" type="stmt"/>
+        <line num="41" count="128" type="cond" truecount="1" falsecount="0"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="45" count="127" type="stmt"/>
+        <line num="55" count="127" type="stmt"/>
+        <line num="67" count="3" type="stmt"/>
+        <line num="68" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="71" count="3" type="stmt"/>
+      </file>
+      <file name="excelService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/excelService.ts">
+        <metrics statements="130" coveredstatements="103" conditionals="32" coveredconditionals="15" methods="11" coveredmethods="10"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="44" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="48" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="71" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="75" count="1" type="cond" truecount="2" falsecount="2"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="81" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="89" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="92" count="1" type="stmt"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="94" count="1" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="99" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="104" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="107" count="1" type="stmt"/>
+        <line num="108" count="1" type="stmt"/>
+        <line num="110" count="1" type="stmt"/>
+        <line num="111" count="1" type="stmt"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="116" count="1" type="stmt"/>
+        <line num="117" count="1" type="stmt"/>
+        <line num="118" count="1" type="stmt"/>
+        <line num="120" count="1" type="stmt"/>
+        <line num="121" count="1" type="stmt"/>
+        <line num="122" count="1" type="stmt"/>
+        <line num="124" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="128" count="1" type="stmt"/>
+        <line num="129" count="1" type="stmt"/>
+        <line num="130" count="1" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="134" count="1" type="stmt"/>
+        <line num="135" count="1" type="stmt"/>
+        <line num="136" count="1" type="stmt"/>
+        <line num="138" count="1" type="stmt"/>
+        <line num="139" count="1" type="stmt"/>
+        <line num="140" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
+        <line num="144" count="1" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
+        <line num="146" count="1" type="stmt"/>
+        <line num="147" count="1" type="stmt"/>
+        <line num="149" count="1" type="stmt"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="153" count="1" type="stmt"/>
+        <line num="154" count="1" type="stmt"/>
+        <line num="156" count="1" type="stmt"/>
+        <line num="157" count="1" type="stmt"/>
+        <line num="158" count="1" type="stmt"/>
+        <line num="159" count="1" type="stmt"/>
+        <line num="161" count="1" type="stmt"/>
+        <line num="162" count="4" type="stmt"/>
+        <line num="164" count="1" type="stmt"/>
+        <line num="166" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="167" count="1" type="stmt"/>
+        <line num="168" count="1" type="stmt"/>
+        <line num="170" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="172" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="173" count="0" type="stmt"/>
+        <line num="174" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="177" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="178" count="0" type="stmt"/>
+        <line num="179" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="180" count="0" type="stmt"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="185" count="0" type="stmt"/>
+        <line num="189" count="1" type="stmt"/>
+        <line num="190" count="1" type="stmt"/>
+        <line num="230" count="1" type="stmt"/>
+        <line num="231" count="1" type="stmt"/>
+        <line num="232" count="1" type="stmt"/>
+        <line num="235" count="1" type="stmt"/>
+        <line num="236" count="1" type="stmt"/>
+        <line num="240" count="1" type="stmt"/>
+        <line num="241" count="1" type="stmt"/>
+        <line num="256" count="1" type="stmt"/>
+        <line num="257" count="1" type="stmt"/>
+        <line num="268" count="1" type="stmt"/>
+        <line num="269" count="1" type="stmt"/>
+        <line num="270" count="1" type="stmt"/>
+        <line num="284" count="1" type="stmt"/>
+        <line num="285" count="1" type="stmt"/>
+        <line num="290" count="1" type="stmt"/>
+        <line num="291" count="1" type="stmt"/>
+        <line num="292" count="5" type="stmt"/>
+        <line num="300" count="1" type="stmt"/>
+        <line num="301" count="1" type="stmt"/>
+        <line num="306" count="1" type="stmt"/>
+        <line num="307" count="1" type="stmt"/>
+        <line num="314" count="1" type="stmt"/>
+        <line num="315" count="1" type="stmt"/>
+        <line num="321" count="1" type="stmt"/>
+        <line num="323" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="324" count="0" type="stmt"/>
+        <line num="326" count="1" type="stmt"/>
+        <line num="327" count="1" type="stmt"/>
+        <line num="336" count="1" type="stmt"/>
+        <line num="337" count="1" type="stmt"/>
+      </file>
+      <file name="questionService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/questionService.ts">
+        <metrics statements="10" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="10" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+      </file>
+      <file name="responseService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/responseService.ts">
+        <metrics statements="23" coveredstatements="18" conditionals="13" coveredconditionals="7" methods="4" coveredmethods="3"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="19" count="5" type="cond" truecount="0" falsecount="1"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="23" count="5" type="cond" truecount="0" falsecount="1"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="28" count="5" type="stmt"/>
+        <line num="29" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="35" count="4" type="cond" truecount="3" falsecount="0"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="37" count="2" type="cond" truecount="1" falsecount="3"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="41" count="4" type="stmt"/>
+        <line num="46" count="4" type="stmt"/>
+        <line num="56" count="4" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="66" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="71" count="1" type="stmt"/>
+      </file>
+      <file name="settingService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/settingService.ts">
+        <metrics statements="9" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="21" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+      </file>
+      <file name="studentService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/studentService.ts">
+        <metrics statements="24" coveredstatements="1" conditionals="16" coveredconditionals="0" methods="5" coveredmethods="1"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="25" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="36" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+      </file>
+      <file name="subjectService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/subjectService.ts">
+        <metrics statements="65" coveredstatements="45" conditionals="37" coveredconditionals="8" methods="12" coveredmethods="6"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="33" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="53" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="62" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="75" count="1" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="82" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="83" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="84" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="85" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="86" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="104" count="1" type="stmt"/>
+        <line num="105" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="107" count="1" type="stmt"/>
+        <line num="108" count="1" type="stmt"/>
+        <line num="111" count="1" type="stmt"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="113" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="116" count="1" type="stmt"/>
+        <line num="117" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="118" count="0" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="127" count="1" type="stmt"/>
+        <line num="128" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="129" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="133" count="1" type="stmt"/>
+        <line num="134" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="135" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="136" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="138" count="1" type="stmt"/>
+        <line num="139" count="1" type="stmt"/>
+        <line num="141" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="143" count="0" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
+        <line num="148" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="149" count="0" type="stmt"/>
+        <line num="151" count="1" type="stmt"/>
+        <line num="154" count="1" type="stmt"/>
+      </file>
+      <file name="teacherService.ts" path="/Applications/XAMPP/xamppfiles/htdocs/Student Feedback System MERN/server/src/services/teacherService.ts">
+        <metrics statements="154" coveredstatements="130" conditionals="69" coveredconditionals="49" methods="38" coveredmethods="32"/>
+        <line num="26" count="14" type="cond" truecount="0" falsecount="1"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="31" count="14" type="stmt"/>
+        <line num="32" count="14" type="stmt"/>
+        <line num="33" count="14" type="cond" truecount="1" falsecount="0"/>
+        <line num="36" count="28" type="stmt"/>
+        <line num="43" count="28" type="stmt"/>
+        <line num="46" count="14" type="cond" truecount="1" falsecount="2"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="50" count="14" type="stmt"/>
+        <line num="57" count="11" type="cond" truecount="1" falsecount="0"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="61" count="10" type="stmt"/>
+        <line num="62" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="66" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="70" count="10" type="stmt"/>
+        <line num="71" count="10" type="stmt"/>
+        <line num="73" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="74" count="5" type="stmt"/>
+        <line num="77" count="5" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="85" count="2" type="stmt"/>
+        <line num="87" count="2" type="stmt"/>
+        <line num="88" count="2" type="stmt"/>
+        <line num="91" count="2" type="stmt"/>
+        <line num="92" count="2" type="stmt"/>
+        <line num="97" count="2" type="stmt"/>
+        <line num="98" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="100" count="2" type="stmt"/>
+        <line num="101" count="2" type="stmt"/>
+        <line num="103" count="2" type="stmt"/>
+        <line num="104" count="1" type="stmt"/>
+        <line num="105" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="110" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="111" count="2" type="stmt"/>
+        <line num="113" count="2" type="stmt"/>
+        <line num="127" count="2" type="stmt"/>
+        <line num="129" count="2" type="stmt"/>
+        <line num="131" count="2" type="stmt"/>
+        <line num="132" count="2" type="stmt"/>
+        <line num="134" count="2" type="stmt"/>
+        <line num="139" count="2" type="stmt"/>
+        <line num="140" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="142" count="2" type="stmt"/>
+        <line num="143" count="2" type="stmt"/>
+        <line num="145" count="2" type="stmt"/>
+        <line num="146" count="1" type="stmt"/>
+        <line num="147" count="1" type="stmt"/>
+        <line num="148" count="1" type="stmt"/>
+        <line num="152" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="154" count="2" type="stmt"/>
+        <line num="172" count="2" type="stmt"/>
+        <line num="179" count="8" type="stmt"/>
+        <line num="180" count="3" type="stmt"/>
+        <line num="181" count="3" type="stmt"/>
+        <line num="183" count="3" type="stmt"/>
+        <line num="184" count="3" type="stmt"/>
+        <line num="189" count="3" type="stmt"/>
+        <line num="190" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="193" count="3" type="stmt"/>
+        <line num="194" count="3" type="stmt"/>
+        <line num="195" count="3" type="stmt"/>
+        <line num="197" count="3" type="stmt"/>
+        <line num="198" count="2" type="stmt"/>
+        <line num="199" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="200" count="2" type="stmt"/>
+        <line num="202" count="2" type="stmt"/>
+        <line num="203" count="2" type="stmt"/>
+        <line num="207" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="209" count="3" type="stmt"/>
+        <line num="210" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="211" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="212" count="15" type="stmt"/>
+        <line num="216" count="3" type="stmt"/>
+        <line num="218" count="3" type="stmt"/>
+        <line num="219" count="3" type="stmt"/>
+        <line num="228" count="3" type="stmt"/>
+        <line num="229" count="2" type="stmt"/>
+        <line num="230" count="2" type="stmt"/>
+        <line num="231" count="2" type="stmt"/>
+        <line num="232" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="233" count="2" type="stmt"/>
+        <line num="234" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="239" count="3" type="stmt"/>
+        <line num="240" count="3" type="stmt"/>
+        <line num="241" count="3" type="stmt"/>
+        <line num="242" count="3" type="stmt"/>
+        <line num="243" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="244" count="15" type="stmt"/>
+        <line num="245" count="15" type="stmt"/>
+        <line num="247" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="248" count="3" type="stmt"/>
+        <line num="252" count="3" type="stmt"/>
+        <line num="253" count="3" type="stmt"/>
+        <line num="255" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="256" count="3" type="stmt"/>
+        <line num="257" count="3" type="stmt"/>
+        <line num="258" count="3" type="stmt"/>
+        <line num="260" count="3" type="stmt"/>
+        <line num="261" count="3" type="cond" truecount="3" falsecount="0"/>
+        <line num="262" count="3" type="stmt"/>
+        <line num="264" count="3" type="cond" truecount="3" falsecount="0"/>
+        <line num="265" count="3" type="stmt"/>
+        <line num="271" count="3" type="stmt"/>
+        <line num="272" count="3" type="stmt"/>
+        <line num="273" count="3" type="stmt"/>
+        <line num="275" count="3" type="stmt"/>
+        <line num="276" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="277" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="278" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="281" count="3" type="stmt"/>
+        <line num="282" count="3" type="stmt"/>
+        <line num="292" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="294" count="3" type="stmt"/>
+        <line num="295" count="3" type="stmt"/>
+        <line num="297" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="298" count="3" type="stmt"/>
+        <line num="300" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="301" count="2" type="stmt"/>
+        <line num="304" count="3" type="cond" truecount="3" falsecount="0"/>
+        <line num="305" count="1" type="stmt"/>
+        <line num="307" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="308" count="0" type="stmt"/>
+        <line num="311" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="312" count="0" type="stmt"/>
+        <line num="314" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="315" count="2" type="stmt"/>
+        <line num="318" count="3" type="stmt"/>
+        <line num="352" count="3" type="stmt"/>
+        <line num="353" count="2" type="stmt"/>
+        <line num="359" count="2" type="stmt"/>
+        <line num="371" count="0" type="stmt"/>
+        <line num="374" count="0" type="stmt"/>
+        <line num="376" count="0" type="stmt"/>
+        <line num="378" count="0" type="stmt"/>
+        <line num="380" count="0" type="stmt"/>
+        <line num="381" count="0" type="stmt"/>
+        <line num="382" count="0" type="stmt"/>
+        <line num="383" count="0" type="stmt"/>
+        <line num="384" count="0" type="stmt"/>
+        <line num="385" count="0" type="stmt"/>
+        <line num="389" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="390" count="0" type="stmt"/>
+        <line num="394" count="0" type="stmt"/>
+        <line num="395" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="397" count="0" type="stmt"/>
+        <line num="409" count="0" type="stmt"/>
+        <line num="416" count="3" type="stmt"/>
+        <line num="417" count="1" type="stmt"/>
+        <line num="419" count="1" type="stmt"/>
+        <line num="434" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

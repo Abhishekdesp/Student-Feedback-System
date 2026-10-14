@@ -1,4 +1,5 @@
 import { StudentService } from '../services/studentService.js';
+import { dispatchStudentImportJob } from '../queues/importQueue.js';
 export const importStudentsCSV = async (req, res, next) => {
     try {
         const csvContent = req.body?.csvText || (req.file ? req.file.buffer.toString('utf-8') : '');
@@ -6,6 +7,18 @@ export const importStudentsCSV = async (req, res, next) => {
         if (!csvContent || csvContent.trim().length === 0) {
             res.status(400).json({ success: false, message: 'CSV content or file is required.' });
             return;
+        }
+        if (req.query.async === 'true') {
+            const queueResult = await dispatchStudentImportJob(csvContent, academicYear);
+            if (queueResult.isQueued) {
+                res.status(202).json({
+                    success: true,
+                    message: 'Student import job enqueued for background processing.',
+                    jobId: queueResult.jobId,
+                    queued: true,
+                });
+                return;
+            }
         }
         const { importedCount } = await StudentService.importStudentsFromCSV(csvContent, academicYear);
         res.status(200).json({

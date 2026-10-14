@@ -1,5 +1,7 @@
+import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import { AuthService } from '../services/authService.js';
+import { CacheService } from '../services/cacheService.js';
 import { env } from '../config/env.js';
 export const loginSchema = z.object({
     body: z.object({
@@ -29,7 +31,31 @@ export const login = async (req, res, next) => {
         next(error);
     }
 };
-export const logout = async (_req, res) => {
+export const logout = async (req, res) => {
+    try {
+        let token = req.cookies?.token;
+        if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+            token = req.headers.authorization.split(' ')[1];
+        }
+        if (token) {
+            try {
+                const decoded = jwt.decode(token);
+                if (decoded?.exp) {
+                    const nowSeconds = Math.floor(Date.now() / 1000);
+                    const remainingSeconds = decoded.exp - nowSeconds;
+                    if (remainingSeconds > 0) {
+                        await CacheService.blacklistToken(token, remainingSeconds);
+                    }
+                }
+            }
+            catch {
+                // Non-fatal if token cannot be decoded
+            }
+        }
+    }
+    catch (error) {
+        // Non-fatal if Redis blacklist fails
+    }
     res.clearCookie('token', {
         httpOnly: true,
         secure: env.NODE_ENV === 'production',

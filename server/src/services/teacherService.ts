@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import bcrypt from 'bcrypt';
 import { Subject, ISubject } from '../models/Subject.js';
 import { Response, IResponse } from '../models/Response.js';
 import { Question, IQuestion } from '../models/Question.js';
@@ -7,6 +8,7 @@ import { JwtPayload } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
 import { AISentimentService } from './aiSentimentService.js';
 import { ExcelService } from './excelService.js';
+import { CacheService } from './cacheService.js';
 
 export interface QuestionRatingSummary {
   questionId: string;
@@ -31,16 +33,21 @@ export class TeacherService {
     const dbUser = await User.findById(user.userId);
     const searchTerms: string[] = [user.username];
     if (dbUser?.email) searchTerms.push(dbUser.email);
+    if (dbUser?.name) searchTerms.push(dbUser.name);
 
-    // Build regex queries to match facultyEmail or facultyName
-    const regexConditions = searchTerms.map((term) => ({
-      $or: [
+    const conditions: any[] = [];
+    if (Types.ObjectId.isValid(user.userId)) {
+      conditions.push({ teacherId: new Types.ObjectId(user.userId) });
+    }
+
+    searchTerms.forEach((term) => {
+      conditions.push(
         { facultyEmail: { $regex: new RegExp(`^${term.trim()}$`, 'i') } },
-        { facultyName: { $regex: new RegExp(term.trim(), 'i') } },
-      ],
-    }));
+        { facultyName: { $regex: new RegExp(term.trim(), 'i') } }
+      );
+    });
 
-    const subjects = await Subject.find({ $or: regexConditions.flatMap((c) => c.$or) }).sort({ code: 1 });
+    const subjects = await Subject.find({ $or: conditions }).sort({ code: 1 });
 
     // Fallback: If no subjects match exact email/name, return all active subjects if user is teacher to ensure seamless dev/testing access
     if (subjects.length === 0 && user.role === 'teacher') {
@@ -48,6 +55,119 @@ export class TeacherService {
     }
 
     return subjects;
+  }
+
+  /**
+   * Get all registered faculty members with their assigned subjects
+   */
+  public static async getAllFaculty() {
+    const teachers = await User.find({ role: 'teacher' })
+      .select('-passwordHash')
+      .sort({ name: 1, username: 1 });
+
+    const allSubjects = await Subject.find().sort({ code: 1 });
+
+    return teachers.map((t) => {
+      const assigned = allSubjects.filter((s) => {
+        return Boolean(s.teacherId && s.teacherId.toString() === t._id.toString());
+      });
+
+      return {
+        _id: t._id,
+        id: t._id,
+        name: t.name || t.username,
+        username: t.username,
+        email: t.email || '',
+        designation: t.designation || 'Faculty Member',
+        mobile: t.mobile || '',
+        department: t.department || 'General',
+        createdAt: t.createdAt,
+        assignedSubjects: assigned.map((s) => ({
+          _id: s._id,
+          code: s.code,
+          semester: s.semester,
+          academicYear: s.academicYear,
+          status: s.status,
+        })),
+        assignedCount: assigned.length,
+      };
+    });
+  }
+
+  /**
+   * Register a new faculty member (user with role: 'teacher') without needing subjects upfront
+   */
+  public static async createFaculty(data: {
+    name: string;
+    username: string;
+    email?: string;
+    password: string;
+    designation?: string;
+    mobile?: string;
+    department?: string;
+  }) {
+    const username = data.username.trim().toLowerCase();
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      throw new AppError(`Username "${username}" is already taken. Please choose another.`, 400);
+    }
+
+    if (data.email && data.email.trim()) {
+      const email = data.email.trim().toLowerCase();
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        throw new AppError(`Email "${email}" is already registered.`, 400);
+      }
+    }
+
+    const passwordHash = await bcrypt.hash(data.password, 10);
+
+    const newTeacher = await User.create({
+      username,
+      name: data.name.trim(),
+      email: data.email?.trim().toLowerCase() || undefined,
+      passwordHash,
+      role: 'teacher',
+      designation: data.designation?.trim() || 'Assistant Professor',
+      mobile: data.mobile?.trim() || undefined,
+      department: data.department?.trim() || 'General',
+    });
+
+    return {
+      _id: newTeacher._id,
+      id: newTeacher._id,
+      name: newTeacher.name,
+      username: newTeacher.username,
+      email: newTeacher.email || '',
+      designation: newTeacher.designation,
+      mobile: newTeacher.mobile || '',
+      department: newTeacher.department,
+      role: newTeacher.role,
+      assignedSubjects: [],
+      assignedCount: 0,
+    };
+  }
+
+  /**
+   * Delete a faculty member and unlink associated subjects
+   */
+  public static async deleteFaculty(teacherId: string) {
+    if (!Types.ObjectId.isValid(teacherId)) {
+      throw new AppError('Invalid faculty ID format.', 400);
+    }
+
+    const teacher = await User.findOneAndDelete({ _id: teacherId, role: 'teacher' });
+    if (!teacher) {
+      throw new AppError('Faculty member not found.', 404);
+    }
+
+    // Unlink teacherId from subjects assigned to this faculty
+    await Subject.updateMany({ teacherId: new Types.ObjectId(teacherId) }, { $unset: { teacherId: 1 } });
+
+    // Invalidate caches
+    await CacheService.delByPattern('teacher:*');
+
+    return { success: true, message: `Faculty member "${teacher.name || teacher.username}" deleted successfully.` };
   }
 
   /**
@@ -81,6 +201,12 @@ export class TeacherService {
    * 1. Teacher Dashboard Summary Stats
    */
   public static async getDashboardStats(user: JwtPayload) {
+    const cacheKey = `teacher:dashboard:${user.userId}`;
+    const cachedStats = await CacheService.get<any>(cacheKey);
+    if (cachedStats) {
+      return cachedStats;
+    }
+
     const subjects = await TeacherService.getAssignedSubjectsForUser(user);
     const subjectIds = subjects.map((s) => s._id);
 
@@ -110,7 +236,7 @@ export class TeacherService {
     const overallRating = totalRatingsCount > 0 ? Number((totalRatingSum / totalRatingsCount).toFixed(2)) : 0;
     const activeSurveysCount = subjects.filter((s) => s.status === 1).length;
 
-    return {
+    const stats = {
       overallRating,
       totalResponses,
       totalStudents,
@@ -118,6 +244,9 @@ export class TeacherService {
       assignedSubjectsCount: subjects.length,
       activeSurveysCount,
     };
+
+    await CacheService.set(cacheKey, stats, 300);
+    return stats;
   }
 
   /**
@@ -177,6 +306,13 @@ export class TeacherService {
    */
   public static async getSubjectAnalytics(user: JwtPayload, subjectId: string) {
     const subject = await TeacherService.verifySubjectOwnership(user, subjectId);
+
+    const cacheKey = `teacher:analytics:${subject._id.toString()}`;
+    const cachedAnalytics = await CacheService.get<any>(cacheKey);
+    if (cachedAnalytics) {
+      return cachedAnalytics;
+    }
+
     const responses = await Response.find({ subjectId: subject._id });
     const questions = await Question.find({ isActive: true }).sort({ order: 1 });
 
@@ -315,7 +451,7 @@ export class TeacherService {
       areasForImprovement = ['Provide additional practice problem sets before exams'];
     }
 
-    return {
+    const analyticsResult = {
       subject: {
         id: subject._id.toString(),
         code: subject.code,
@@ -343,6 +479,9 @@ export class TeacherService {
         areasForImprovement,
       },
     };
+
+    await CacheService.set(cacheKey, analyticsResult, 300);
+    return analyticsResult;
   }
 
   /**

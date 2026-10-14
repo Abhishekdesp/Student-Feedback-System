@@ -8,6 +8,11 @@ const subjectSchema = new Schema({
         uppercase: true,
         trim: true,
     },
+    teacherId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        index: true,
+    },
     facultyName: {
         type: String,
         required: true,

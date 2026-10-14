@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
+import { RedisStore } from 'rate-limit-redis';
+import { redisClient } from './config/redis.js';
 import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -54,12 +56,20 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(mongoSanitize());
 
-// Rate Limiter
+// Distributed Rate Limiter (Redis-backed in dev/prod with in-memory fallback)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 mins
   max: 1000,
   standardHeaders: true,
   legacyHeaders: false,
+  passOnStoreError: true,
+  store:
+    env.ENABLE_REDIS !== 'false' && env.NODE_ENV !== 'test'
+      ? new RedisStore({
+          sendCommand: (...args: string[]) => (redisClient as any).call(...args),
+          prefix: 'rl:',
+        })
+      : undefined,
 });
 app.use(limiter);
 

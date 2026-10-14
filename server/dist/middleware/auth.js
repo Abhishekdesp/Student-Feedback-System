@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
-export const requireAuth = (req, res, next) => {
+import { CacheService } from '../services/cacheService.js';
+export const requireAuth = async (req, res, next) => {
     try {
         let token = req.cookies?.token;
         if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
@@ -8,6 +9,10 @@ export const requireAuth = (req, res, next) => {
         }
         if (!token) {
             res.status(401).json({ success: false, message: 'Authentication required. Please log in.' });
+            return;
+        }
+        if (await CacheService.isTokenBlacklisted(token)) {
+            res.status(401).json({ success: false, message: 'Token has been revoked. Please log in again.' });
             return;
         }
         const decoded = jwt.verify(token, env.JWT_SECRET);

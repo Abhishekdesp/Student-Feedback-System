@@ -58,6 +58,7 @@ export const App: React.FC = () => {
             <Route element={<ProtectedRoute allowedRoles={['admin', 'teacher']} />}>
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/faculty" element={<AddFaculty />} />
+              <Route path="/admin/subjects" element={<AddFaculty />} />
               <Route path="/admin/questions" element={<Questions />} />
               <Route path="/admin/settings" element={<Settings />} />
             </Route>
