@@ -3,13 +3,15 @@ import { env } from './env.js';
 
 let isRedisConnected = false;
 
+const isTls = env.REDIS_URL.startsWith('rediss://');
+
 const redisOptions: RedisOptions = {
   maxRetriesPerRequest: null, // Required by BullMQ
-  enableReadyCheck: true,
+  enableReadyCheck: false,    // Required for serverless Redis like Upstash
   lazyConnect: true,
+  tls: isTls ? { rejectUnauthorized: false } : undefined,
   retryStrategy(times) {
-    if (times > 5) {
-      // Don't flood reconnect logs if Redis is absent in CI/test
+    if (times > 10) {
       return null;
     }
     return Math.min(times * 1000, 3000);
