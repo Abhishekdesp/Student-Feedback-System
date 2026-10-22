@@ -54,9 +54,10 @@ export const FeedbackSummaryModal: React.FC<FeedbackSummaryModalProps> = ({ subj
               <button
                 onClick={handleExport}
                 className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition shadow-sm"
+                title="Download formatted Excel report"
               >
                 <Download className="h-3.5 w-3.5" />
-                <span>Export Excel</span>
+                <span>Download Report</span>
               </button>
             )}
             <button

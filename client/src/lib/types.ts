@@ -1,6 +1,8 @@
 export interface User {
   id: string;
   username: string;
+  name?: string;
+  email?: string;
   role: 'admin' | 'teacher' | 'student';
   studentDetails?: {
     academicYear: 'First' | 'Second' | 'Third';

@@ -1,6 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth.js';
 import { TeacherService } from '../services/teacherService.js';
+import { TeacherChatService } from '../services/teacherChatService.js';
 import { AppError } from '../middleware/errorHandler.js';
 
 export async function getDashboard(req: AuthenticatedRequest, res: Response, next: NextFunction) {
@@ -100,4 +101,19 @@ export async function deleteFaculty(req: AuthenticatedRequest, res: Response, ne
     next(error);
   }
 }
+
+export async function chatWithCopilot(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    if (!req.user) throw new AppError('Authentication required.', 401);
+    const { message, history } = req.body;
+    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+      throw new AppError('Message is required.', 400);
+    }
+    const reply = await TeacherChatService.handleChat(req.user, message.trim(), history || []);
+    res.status(200).json({ success: true, reply });
+  } catch (error) {
+    next(error);
+  }
+}
+
 

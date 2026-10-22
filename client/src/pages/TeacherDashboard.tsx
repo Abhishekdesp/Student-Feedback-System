@@ -21,6 +21,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { api } from '../lib/axios';
+import { TeacherChatbot } from '../components/TeacherChatbot';
 
 export const TeacherDashboard: React.FC = () => {
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
@@ -584,6 +585,9 @@ export const TeacherDashboard: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* AI Copilot Chatbot for Teacher */}
+      <TeacherChatbot />
     </div>
   );
 };

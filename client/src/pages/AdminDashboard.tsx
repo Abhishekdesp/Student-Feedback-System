@@ -114,7 +114,13 @@ export const AdminDashboard: React.FC = () => {
                 <tbody className="divide-y divide-slate-200 text-sm">
                   {subjects?.map((s) => (
                     <tr key={s._id} className="hover:bg-slate-50">
-                      <td className="p-4 font-bold text-blue-600">{s.code}</td>
+                      <td
+                        onClick={() => setSelectedSubjectId(s._id)}
+                        className="p-4 font-bold text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                        title="Click to view online summary"
+                      >
+                        {s.code}
+                      </td>
                       <td className="p-4 font-medium text-slate-900">{s.facultyName}</td>
                       <td className="p-4 text-slate-600">{s.facultyDesignation}</td>
                       <td className="p-4 text-slate-600">
@@ -133,22 +139,17 @@ export const AdminDashboard: React.FC = () => {
                       </td>
                       <td className="p-4 text-right space-x-2">
                         <button
-                          onClick={() => setSelectedSubjectId(s._id)}
-                          className="inline-flex items-center space-x-1 px-3 py-1.5 bg-purple-50 text-purple-700 hover:bg-purple-100 rounded text-xs font-medium border border-purple-200 transition"
-                        >
-                          <Eye className="h-3.5 w-3.5" />
-                          <span>AI Report</span>
-                        </button>
-                        <button
                           onClick={() => handleExport(s._id, s.code)}
-                          className="inline-flex items-center space-x-1 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-xs font-medium border border-blue-200 transition"
+                          className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-xs transition"
+                          title={`Download complete report for ${s.code}`}
                         >
                           <Download className="h-3.5 w-3.5" />
-                          <span>Export Excel</span>
+                          <span>Download Report</span>
                         </button>
                         <button
                           onClick={() => handleClearData(s._id, s.code)}
-                          className="inline-flex items-center space-x-1 px-2.5 py-1.5 bg-red-50 text-red-700 hover:bg-red-100 rounded text-xs font-medium border border-red-200 transition"
+                          className="inline-flex items-center space-x-1 px-2.5 py-1.5 bg-red-50 text-red-700 hover:bg-red-100 rounded-lg text-xs font-medium border border-red-200 transition"
+                          title={`Clear feedback responses for ${s.code}`}
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                           <span>Clear Data</span>

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getDashboard, getSubjects, getSubjectAnalytics, getSubjectComments, getSubjectTrends, exportSubjectReport, getAllFaculty, createFaculty, deleteFaculty, } from '../controllers/teacherController.js';
+import { getDashboard, getSubjects, getSubjectAnalytics, getSubjectComments, getSubjectTrends, exportSubjectReport, getAllFaculty, createFaculty, deleteFaculty, chatWithCopilot, } from '../controllers/teacherController.js';
 import { requireAuth, authorizeRoles } from '../middleware/auth.js';
 const router = Router();
 router.use(requireAuth);
@@ -15,4 +15,5 @@ router.get('/subjects/:subjectId/analytics', getSubjectAnalytics);
 router.get('/subjects/:subjectId/comments', getSubjectComments);
 router.get('/subjects/:subjectId/trends', getSubjectTrends);
 router.get('/subjects/:subjectId/report', exportSubjectReport);
+router.post('/chat', chatWithCopilot);
 export default router;

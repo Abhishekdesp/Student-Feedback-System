@@ -239,5 +239,33 @@ describe('Teacher Portal & Authorization Integration Tests', () => {
       expect(res.status).toBe(400);
       expect(res.body.message).toContain('Invalid subject ID format');
     });
+
+    it('11. Unauthenticated requests to /api/teacher/chat are rejected with 401', async () => {
+      const res = await request(app)
+        .post('/api/teacher/chat')
+        .send({ message: 'Hello' });
+
+      expect(res.status).toBe(401);
+    });
+
+    it('12. Students cannot access /api/teacher/chat (403 Forbidden)', async () => {
+      const res = await request(app)
+        .post('/api/teacher/chat')
+        .set('Cookie', studentCookie)
+        .send({ message: 'Hello' });
+
+      expect(res.status).toBe(403);
+    });
+
+    it('13. Validation error when message is missing in /api/teacher/chat', async () => {
+      const res = await request(app)
+        .post('/api/teacher/chat')
+        .set('Cookie', teacher1Cookie)
+        .send({});
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toContain('Message is required');
+    });
   });
 });
+
