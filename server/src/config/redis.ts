@@ -9,12 +9,13 @@ const redisOptions: RedisOptions = {
   maxRetriesPerRequest: null, // Required by BullMQ
   enableReadyCheck: false,    // Required for serverless Redis like Upstash
   lazyConnect: true,
+  connectTimeout: 4000,
   tls: isTls ? { rejectUnauthorized: false } : undefined,
   retryStrategy(times) {
-    if (times > 10) {
+    if (times > 3) {
       return null;
     }
-    return Math.min(times * 1000, 3000);
+    return Math.min(times * 1000, 2000);
   },
 };
 
@@ -43,6 +44,15 @@ redisClient.on('close', () => {
 
 export async function initRedis(): Promise<boolean> {
   if (env.ENABLE_REDIS === 'false') {
+    return false;
+  }
+
+  // Prevent connecting to 127.0.0.1 / localhost when deployed to cloud environments like Render
+  if (
+    env.NODE_ENV === 'production' &&
+    (env.REDIS_URL.includes('127.0.0.1') || env.REDIS_URL.includes('localhost'))
+  ) {
+    console.warn('⚠️  Local Redis URL configured in production. Operating in resilient fallback mode.');
     return false;
   }
   if (redisClient.status === 'ready' || redisClient.status === 'connect') {
