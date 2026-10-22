@@ -5,8 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const TEMPLATE_DIR = path.resolve(__dirname, '../../templates');
-const DEFAULT_TEMPLATE_PATH = path.join(TEMPLATE_DIR, 'master_template.xlsx');
-// Reusable styling presets for high-end professional Excel reports
+// Styling presets for ExcelJS
 const BORDER_COLOR = 'FFCBD5E1'; // Slate 300
 const DARK_BORDER = 'FF1E293B'; // Slate 800
 const thinBorder = {
@@ -28,26 +27,12 @@ export class ExcelService {
         }
     }
     /**
-     * Generates a beautifully formatted, executive-ready Excel report for a subject.
+     * Helper that builds the comprehensive executive dashboard layout on any worksheet.
      */
-    static async generateReport(data, uploadedBuffer) {
-        await ExcelService.ensureMasterTemplateExists();
-        const workbook = new ExcelJS.Workbook();
-        workbook.creator = 'Student Feedback System';
-        workbook.created = new Date();
-        // If an external template buffer is provided, load it; otherwise create our brand new styled worksheet
-        let worksheet;
-        if (uploadedBuffer && uploadedBuffer.length > 0) {
-            await workbook.xlsx.load(uploadedBuffer);
-            worksheet = workbook.worksheets[0] || workbook.addWorksheet('Feedback Report');
-        }
-        else {
-            worksheet = workbook.addWorksheet('Feedback Report');
-        }
-        // Ensure grid lines are visible in Excel / Google Sheets
+    static populateExecutiveSummary(worksheet, cfg) {
         worksheet.views = [{ showGridLines: true }];
         // Column Widths
-        worksheet.getColumn('A').width = 3; // Left Margin
+        worksheet.getColumn('A').width = 3; // Margin
         worksheet.getColumn('B').width = 8; // #
         worksheet.getColumn('C').width = 48; // Question text / item
         worksheet.getColumn('D').width = 16; // 5★ Excellent
@@ -57,12 +42,10 @@ export class ExcelService {
         worksheet.getColumn('H').width = 15; // 1★ Bad
         worksheet.getColumn('I').width = 18; // Weighted Avg Rating
         let row = 2;
-        // ─────────────────────────────────────────────────────────────
-        // 1. REPORT HEADER BANNER
-        // ─────────────────────────────────────────────────────────────
+        // 1. BANNER HEADER
         worksheet.mergeCells(`B${row}:I${row}`);
         const titleCell = worksheet.getCell(`B${row}`);
-        titleCell.value = 'STUDENT FEEDBACK & FACULTY EVALUATION REPORT';
+        titleCell.value = 'FACULTY FEEDBACK & TEACHING EVALUATION REPORT';
         titleCell.font = { name: 'Calibri', size: 15, bold: true, color: { argb: 'FFFFFFFF' } };
         titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0F172A' } }; // Slate 900
         titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -70,15 +53,13 @@ export class ExcelService {
         row++;
         worksheet.mergeCells(`B${row}:I${row}`);
         const subtitleCell = worksheet.getCell(`B${row}`);
-        subtitleCell.value = 'Comprehensive Academic Quality Assessment & Feedback Analytics';
+        subtitleCell.value = 'Comprehensive Academic Quality Assessment & Student Feedback Report';
         subtitleCell.font = { name: 'Calibri', size: 10, italic: true, color: { argb: 'FF94A3B8' } };
         subtitleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1E293B' } }; // Slate 800
         subtitleCell.alignment = { vertical: 'middle', horizontal: 'center' };
         worksheet.getRow(row).height = 22;
         row += 2;
-        // ─────────────────────────────────────────────────────────────
-        // 2. FACULTY & COURSE SPECIFICATIONS CARD
-        // ─────────────────────────────────────────────────────────────
+        // 2. SPECIFICATIONS CARD
         worksheet.mergeCells(`B${row}:I${row}`);
         const metaHeader = worksheet.getCell(`B${row}`);
         metaHeader.value = 'FACULTY & COURSE SPECIFICATIONS';
@@ -88,7 +69,6 @@ export class ExcelService {
         metaHeader.border = thinBorder;
         worksheet.getRow(row).height = 24;
         row++;
-        // Helper for key-value row
         const addMetaRow = (k1, v1, k2, v2, isRating = false) => {
             worksheet.getCell(`B${row}`).value = k1;
             worksheet.getCell(`B${row}`).font = { name: 'Calibri', size: 10, bold: true, color: { argb: 'FF475569' } };
@@ -117,13 +97,11 @@ export class ExcelService {
             worksheet.getRow(row).height = 22;
             row++;
         };
-        addMetaRow('Faculty Name:', data.facultyName, 'Course Code:', data.subjectCode);
-        addMetaRow('Class / Scheme:', `Semester ${data.semester} (${data.scheme} Scheme)`, 'Total Submissions:', `${data.submissionCount} Students`);
-        addMetaRow('Overall Rating:', `${data.avgRating} / 5.0 ★`, 'Generated On:', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }), true);
+        addMetaRow('Faculty Name:', cfg.facultyName, 'Course Code:', cfg.subjectCode);
+        addMetaRow('Class / Scheme:', `Semester ${cfg.semester} (${cfg.scheme} Scheme)${cfg.academicYear ? ` • ${cfg.academicYear} Year` : ''}`, 'Total Submissions:', `${cfg.submissionCount} Students${cfg.responseRate !== undefined ? ` (${cfg.responseRate}%)` : ''}`);
+        addMetaRow('Overall Rating:', `${cfg.avgRating} / 5.0 ★`, 'Report Date:', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }), true);
         row++;
-        // ─────────────────────────────────────────────────────────────
-        // 3. EXECUTIVE KPI METRIC BOXES
-        // ─────────────────────────────────────────────────────────────
+        // 3. KPI METRIC CARDS
         const kpiRowStart = row;
         const kpiRowVal = row + 1;
         const createKpiCard = (startCol, endCol, title, val, bgColor, textColor) => {
@@ -142,16 +120,14 @@ export class ExcelService {
             vCell.alignment = { vertical: 'middle', horizontal: 'center' };
             vCell.border = thinBorder;
         };
-        createKpiCard('B', 'C', 'OVERALL RATING', `${data.avgRating} / 5.0`, 'FFEFF6FF', 'FF1E40AF'); // Blue
-        createKpiCard('D', 'E', 'SUBMISSIONS', data.submissionCount, 'FFF8FAFC', 'FF0F172A'); // Slate
-        createKpiCard('F', 'G', 'POSITIVE SENTIMENT', `${data.aiSummary.posPct}%`, 'FFECFDF5', 'FF15803D'); // Green
-        createKpiCard('H', 'I', 'CONSTRUCTIVE / GROWTH', `${data.aiSummary.conPct}%`, 'FFFFFBEB', 'FFB45309'); // Amber
+        createKpiCard('B', 'C', 'OVERALL RATING', `${cfg.avgRating} / 5.0`, 'FFEFF6FF', 'FF1E40AF');
+        createKpiCard('D', 'E', 'SUBMISSIONS', cfg.submissionCount, 'FFF8FAFC', 'FF0F172A');
+        createKpiCard('F', 'G', 'POSITIVE SENTIMENT', `${cfg.aiSummary.posPct}%`, 'FFECFDF5', 'FF15803D');
+        createKpiCard('H', 'I', 'CONSTRUCTIVE / GROWTH', `${cfg.aiSummary.conPct}%`, 'FFFFFBEB', 'FFB45309');
         worksheet.getRow(kpiRowStart).height = 18;
         worksheet.getRow(kpiRowVal).height = 28;
         row += 3;
-        // ─────────────────────────────────────────────────────────────
-        // 4. QUESTION-WISE EVALUATION BREAKDOWN TABLE
-        // ─────────────────────────────────────────────────────────────
+        // 4. QUESTION RATINGS BREAKDOWN TABLE
         worksheet.mergeCells(`B${row}:I${row}`);
         const tableTitle = worksheet.getCell(`B${row}`);
         tableTitle.value = 'DETAILED QUESTION-WISE EVALUATION BREAKDOWN';
@@ -161,7 +137,6 @@ export class ExcelService {
         tableTitle.border = thinBorder;
         worksheet.getRow(row).height = 24;
         row++;
-        // Table Column Headers
         const headers = [
             { col: 'B', text: '#' },
             { col: 'C', text: 'Evaluation Question / Parameter' },
@@ -182,13 +157,12 @@ export class ExcelService {
         });
         worksheet.getRow(row).height = 26;
         row++;
-        // Table Data Rows
         let totalEx = 0;
         let totalVg = 0;
         let totalG = 0;
         let totalP = 0;
         let totalB = 0;
-        data.questionsData.forEach((q, idx) => {
+        cfg.questionsData.forEach((q, idx) => {
             const isZebra = idx % 2 === 1;
             const rowBg = isZebra ? 'FFF8FAFC' : 'FFFFFFFF';
             totalEx += q.excellent || 0;
@@ -197,14 +171,16 @@ export class ExcelService {
             totalP += q.poor || 0;
             totalB += q.bad || 0;
             const qTotal = (q.excellent || 0) + (q.veryGood || 0) + (q.good || 0) + (q.poor || 0) + (q.bad || 0);
-            const qScore = qTotal > 0
-                ? (((q.excellent || 0) * 5 +
-                    (q.veryGood || 0) * 4 +
-                    (q.good || 0) * 3 +
-                    (q.poor || 0) * 2 +
-                    (q.bad || 0) * 1) /
-                    qTotal).toFixed(2)
-                : '0.00';
+            const qScore = q.avgRating !== undefined
+                ? q.avgRating.toFixed(2)
+                : qTotal > 0
+                    ? (((q.excellent || 0) * 5 +
+                        (q.veryGood || 0) * 4 +
+                        (q.good || 0) * 3 +
+                        (q.poor || 0) * 2 +
+                        (q.bad || 0) * 1) /
+                        qTotal).toFixed(2)
+                    : '0.00';
             const cells = [
                 { col: 'B', val: idx + 1, align: 'center', bold: false },
                 { col: 'C', val: q.questionText, align: 'left', bold: false },
@@ -231,16 +207,16 @@ export class ExcelService {
             worksheet.getRow(row).height = 22;
             row++;
         });
-        // Summary Totals Row
+        // Summary Row
         const summaryCells = [
             { col: 'B', val: 'TOTAL', align: 'center' },
-            { col: 'C', val: `Cumulative Aggregate Responses (${data.questionsData.length} Criteria)`, align: 'left' },
+            { col: 'C', val: `Cumulative Total Responses Across ${cfg.questionsData.length} Evaluation Criteria`, align: 'left' },
             { col: 'D', val: totalEx, align: 'center' },
             { col: 'E', val: totalVg, align: 'center' },
             { col: 'F', val: totalG, align: 'center' },
             { col: 'G', val: totalP, align: 'center' },
             { col: 'H', val: totalB, align: 'center' },
-            { col: 'I', val: `${data.avgRating} / 5.0`, align: 'center' },
+            { col: 'I', val: `${cfg.avgRating} / 5.0`, align: 'center' },
         ];
         summaryCells.forEach((sc) => {
             const c = worksheet.getCell(`${sc.col}${row}`);
@@ -252,9 +228,7 @@ export class ExcelService {
         });
         worksheet.getRow(row).height = 24;
         row += 2;
-        // ─────────────────────────────────────────────────────────────
-        // 5. GEMINI AI SENTIMENT ANALYSIS & PEDAGOGICAL INSIGHTS
-        // ─────────────────────────────────────────────────────────────
+        // 5. AI SENTIMENT ANALYSIS & TEACHING INSIGHTS
         worksheet.mergeCells(`B${row}:I${row}`);
         const aiTitle = worksheet.getCell(`B${row}`);
         aiTitle.value = 'AI SENTIMENT ANALYSIS & TEACHING INSIGHTS';
@@ -264,7 +238,6 @@ export class ExcelService {
         aiTitle.border = thinBorder;
         worksheet.getRow(row).height = 24;
         row++;
-        // Sentiment breakdown mini-table
         worksheet.mergeCells(`B${row}:C${row}`);
         worksheet.getCell(`B${row}`).value = 'Sentiment Category';
         worksheet.getCell(`B${row}`).font = { name: 'Calibri', size: 10, bold: true, color: { argb: 'FF475569' } };
@@ -306,12 +279,14 @@ export class ExcelService {
             worksheet.getRow(row).height = 22;
             row++;
         };
-        addSentimentRow('Positive', data.aiSummary.posPct, 'Strong appreciation for pedagogy & clarity', 'FFDCFCE7', 'FF166534');
-        addSentimentRow('Neutral', data.aiSummary.neuPct, 'Standard fulfillment of curriculum objectives', 'FFF1F5F9', 'FF475569');
-        addSentimentRow('Constructive', data.aiSummary.conPct, 'Actionable areas for teaching enhancement', 'FFFEF3C7', 'FFB45309');
+        addSentimentRow('Positive', cfg.aiSummary.posPct, 'Strong appreciation for pedagogy & lecture clarity', 'FFDCFCE7', 'FF166534');
+        addSentimentRow('Neutral', cfg.aiSummary.neuPct, 'Standard fulfillment of syllabus objectives', 'FFF1F5F9', 'FF475569');
+        addSentimentRow('Constructive', cfg.aiSummary.conPct, 'Actionable recommendations for improvement', 'FFFEF3C7', 'FFB45309');
         row++;
-        // AI Strengths and Growth Highlights
-        if (data.aiSummary.strengths.length > 0 || data.aiSummary.growths.length > 0) {
+        // AI Strengths and Growth
+        const strengths = cfg.aiSummary.strengths || [];
+        const growths = cfg.aiSummary.growths || [];
+        if (strengths.length > 0 || growths.length > 0) {
             worksheet.mergeCells(`B${row}:I${row}`);
             const hTitle = worksheet.getCell(`B${row}`);
             hTitle.value = 'AI EXTRACTED STRENGTHS & GROWTH RECOMMENDATIONS';
@@ -320,7 +295,7 @@ export class ExcelService {
             hTitle.border = thinBorder;
             worksheet.getRow(row).height = 20;
             row++;
-            data.aiSummary.strengths.forEach((str) => {
+            strengths.forEach((str) => {
                 worksheet.mergeCells(`B${row}:I${row}`);
                 const c = worksheet.getCell(`B${row}`);
                 c.value = `✔ Strength: ${str}`;
@@ -331,10 +306,10 @@ export class ExcelService {
                 worksheet.getRow(row).height = 20;
                 row++;
             });
-            data.aiSummary.growths.forEach((gro) => {
+            growths.forEach((gro) => {
                 worksheet.mergeCells(`B${row}:I${row}`);
                 const c = worksheet.getCell(`B${row}`);
-                c.value = `▲ Opportunity: ${gro}`;
+                c.value = `▲ Growth Area: ${gro}`;
                 c.font = { name: 'Calibri', size: 9.5, color: { argb: 'FF9A3412' } };
                 c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFBEB' } };
                 ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'].forEach((col) => (worksheet.getCell(`${col}${row}`).border = thinBorder));
@@ -344,9 +319,7 @@ export class ExcelService {
             });
             row++;
         }
-        // ─────────────────────────────────────────────────────────────
-        // 6. STUDENT QUALITATIVE COMMENTS & ANONYMOUS LOG
-        // ─────────────────────────────────────────────────────────────
+        // 6. STUDENT COMMENTS TABLE
         worksheet.mergeCells(`B${row}:I${row}`);
         const commentsHeader = worksheet.getCell(`B${row}`);
         commentsHeader.value = 'STUDENT QUALITATIVE FEEDBACK COMMENTS & ANONYMOUS LOG';
@@ -356,7 +329,6 @@ export class ExcelService {
         commentsHeader.border = thinBorder;
         worksheet.getRow(row).height = 24;
         row++;
-        // Comments Table Headers
         worksheet.getCell(`B${row}`).value = '#';
         worksheet.getCell(`B${row}`).font = { name: 'Calibri', size: 10, bold: true, color: { argb: 'FFFFFFFF' } };
         worksheet.getCell(`B${row}`).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF475569' } };
@@ -383,7 +355,7 @@ export class ExcelService {
         worksheet.getCell(`I${row}`).border = thinBorder;
         worksheet.getRow(row).height = 24;
         row++;
-        if (!data.aiSummary.comments || data.aiSummary.comments.length === 0) {
+        if (!cfg.aiSummary.comments || cfg.aiSummary.comments.length === 0) {
             worksheet.mergeCells(`B${row}:I${row}`);
             const emptyCell = worksheet.getCell(`B${row}`);
             emptyCell.value = 'No qualitative written comments submitted for this course evaluation.';
@@ -395,7 +367,7 @@ export class ExcelService {
             row++;
         }
         else {
-            data.aiSummary.comments.forEach((c, idx) => {
+            cfg.aiSummary.comments.forEach((c, idx) => {
                 const isZebra = idx % 2 === 1;
                 const rowBg = isZebra ? 'FFF8FAFC' : 'FFFFFFFF';
                 worksheet.getCell(`B${row}`).value = idx + 1;
@@ -437,77 +409,110 @@ export class ExcelService {
             });
         }
         row += 2;
-        // ─────────────────────────────────────────────────────────────
-        // 7. FOOTER NOTE
-        // ─────────────────────────────────────────────────────────────
+        // 7. FOOTER
         worksheet.mergeCells(`B${row}:I${row}`);
         const footer = worksheet.getCell(`B${row}`);
         footer.value = `Strict Anonymity Enforced • Generated by Student Feedback System • Powered by LangChain & Gemini AI`;
         footer.font = { name: 'Calibri', size: 8.5, italic: true, color: { argb: 'FF94A3B8' } };
         footer.alignment = { vertical: 'middle', horizontal: 'center' };
         worksheet.getRow(row).height = 18;
+    }
+    /**
+     * Generates a single-sheet Excel report (Admin export).
+     */
+    static async generateReport(data, uploadedBuffer) {
+        await ExcelService.ensureMasterTemplateExists();
+        const workbook = new ExcelJS.Workbook();
+        workbook.creator = 'Student Feedback System';
+        workbook.created = new Date();
+        let worksheet;
+        if (uploadedBuffer && uploadedBuffer.length > 0) {
+            await workbook.xlsx.load(uploadedBuffer);
+            worksheet = workbook.worksheets[0] || workbook.addWorksheet('Feedback Report');
+        }
+        else {
+            worksheet = workbook.addWorksheet('Feedback Report');
+        }
+        ExcelService.populateExecutiveSummary(worksheet, {
+            facultyName: data.facultyName,
+            subjectCode: data.subjectCode,
+            semester: data.semester,
+            scheme: data.scheme,
+            submissionCount: data.submissionCount,
+            avgRating: data.avgRating,
+            questionsData: data.questionsData,
+            aiSummary: data.aiSummary,
+        });
         const uint8Array = await workbook.xlsx.writeBuffer();
         return Buffer.from(uint8Array);
     }
     /**
-     * Generates a multi-sheet Excel workbook for the teacher portal with proper borders and styling.
+     * Generates a fully formatted, multi-sheet workbook for Teacher Login:
+     * - Sheet 1: Master Executive Performance Dashboard (Banners, KPI boxes, Questions Table, AI Sentiment, Anonymous Comments)
+     * - Sheet 2: Question Distribution matrix
+     * - Sheet 3: Star Rating Distribution
+     * - Sheet 4: Sentiment Summary
+     * - Sheet 5: Anonymous Comments Log
      */
     static async generateTeacherMultiSheetReport(analyticsData) {
         const workbook = new ExcelJS.Workbook();
         workbook.creator = 'Student Feedback System';
         workbook.created = new Date();
-        // Sheet 1: Overview & Faculty Info
-        const sheet1 = workbook.addWorksheet('Overview');
-        sheet1.views = [{ showGridLines: true }];
-        sheet1.columns = [
-            { header: 'Property', key: 'prop', width: 28 },
-            { header: 'Value', key: 'val', width: 45 },
-        ];
-        sheet1.getRow(1).font = { name: 'Calibri', bold: true, size: 11, color: { argb: 'FFFFFFFF' } };
-        sheet1.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1E40AF' } };
-        sheet1.getRow(1).alignment = { vertical: 'middle', indent: 1 };
-        sheet1.getRow(1).height = 24;
-        const overviewRows = [
-            { prop: 'Faculty Name', val: analyticsData.facultyName },
-            { prop: 'Designation', val: analyticsData.facultyDesignation },
-            { prop: 'Faculty Email', val: analyticsData.facultyEmail },
-            { prop: 'Subject Code', val: analyticsData.subjectCode },
-            { prop: 'Scheme', val: analyticsData.scheme },
-            { prop: 'Semester', val: analyticsData.semester },
-            { prop: 'Academic Year', val: analyticsData.academicYear },
-            { prop: 'Overall Rating', val: `${analyticsData.overallRating} / 5.0` },
-            { prop: 'Total Responses', val: analyticsData.totalResponses },
-            { prop: 'Total Students', val: analyticsData.totalStudents },
-            { prop: 'Response Rate', val: `${analyticsData.responseRate}%` },
-        ];
-        overviewRows.forEach((r, idx) => {
-            const addedRow = sheet1.addRow(r);
-            const isZebra = idx % 2 === 1;
-            const bg = isZebra ? 'FFF8FAFC' : 'FFFFFFFF';
-            addedRow.getCell(1).font = { name: 'Calibri', bold: true, color: { argb: 'FF475569' } };
-            addedRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bg } };
-            addedRow.getCell(1).border = thinBorder;
-            addedRow.getCell(2).font = { name: 'Calibri', color: { argb: 'FF0F172A' }, bold: r.prop === 'Overall Rating' };
-            addedRow.getCell(2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bg } };
-            addedRow.getCell(2).border = thinBorder;
-            addedRow.height = 22;
+        // ─────────────────────────────────────────────────────────────
+        // SHEET 1: Master Executive Performance Dashboard
+        // ─────────────────────────────────────────────────────────────
+        const sheet1 = workbook.addWorksheet('Executive Dashboard');
+        ExcelService.populateExecutiveSummary(sheet1, {
+            facultyName: analyticsData.facultyName,
+            facultyDesignation: analyticsData.facultyDesignation,
+            facultyEmail: analyticsData.facultyEmail,
+            subjectCode: analyticsData.subjectCode,
+            semester: analyticsData.semester,
+            scheme: analyticsData.scheme,
+            academicYear: analyticsData.academicYear,
+            submissionCount: analyticsData.totalResponses,
+            avgRating: analyticsData.overallRating,
+            responseRate: analyticsData.responseRate,
+            questionsData: analyticsData.questionWise.map((q) => ({
+                questionText: q.questionText,
+                excellent: q.distribution[5] || 0,
+                veryGood: q.distribution[4] || 0,
+                good: q.distribution[3] || 0,
+                poor: q.distribution[2] || 0,
+                bad: q.distribution[1] || 0,
+                avgRating: q.avgRating,
+            })),
+            aiSummary: {
+                posPct: analyticsData.sentimentSummary.positivePct,
+                neuPct: analyticsData.sentimentSummary.neutralPct,
+                conPct: analyticsData.sentimentSummary.constructivePct,
+                strengths: analyticsData.aiInsights?.strengths || [],
+                growths: analyticsData.aiInsights?.areasForImprovement || [],
+                comments: analyticsData.anonymousComments.map((c) => ({
+                    comment: c.comment,
+                    sentiment: c.sentiment,
+                    createdAt: c.submittedAt,
+                })),
+            },
         });
-        // Sheet 2: Question-Wise Ratings
-        const sheet2 = workbook.addWorksheet('Question Ratings');
+        // ─────────────────────────────────────────────────────────────
+        // SHEET 2: Question Distribution Matrix
+        // ─────────────────────────────────────────────────────────────
+        const sheet2 = workbook.addWorksheet('Question Distribution');
         sheet2.views = [{ showGridLines: true }];
         sheet2.columns = [
             { header: '#', key: 'num', width: 6 },
-            { header: 'Question Text', key: 'text', width: 50 },
-            { header: 'Avg Rating', key: 'avg', width: 14 },
-            { header: 'Responses', key: 'count', width: 14 },
-            { header: '5 Stars (Excellent)', key: 's5', width: 18 },
-            { header: '4 Stars (Very Good)', key: 's4', width: 18 },
-            { header: '3 Stars (Good)', key: 's3', width: 15 },
-            { header: '2 Stars (Poor)', key: 's2', width: 15 },
-            { header: '1 Star (Bad)', key: 's1', width: 15 },
+            { header: 'Evaluation Question / Criteria', key: 'text', width: 50 },
+            { header: 'Weighted Avg', key: 'avg', width: 15 },
+            { header: 'Total Responses', key: 'count', width: 16 },
+            { header: '5★ (Excellent)', key: 's5', width: 16 },
+            { header: '4★ (Very Good)', key: 's4', width: 16 },
+            { header: '3★ (Good)', key: 's3', width: 14 },
+            { header: '2★ (Poor)', key: 's2', width: 14 },
+            { header: '1★ (Bad)', key: 's1', width: 14 },
         ];
-        sheet2.getRow(1).font = { name: 'Calibri', bold: true, size: 10, color: { argb: 'FFFFFFFF' } };
-        sheet2.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF2563EB' } };
+        sheet2.getRow(1).font = { name: 'Calibri', bold: true, size: 10.5, color: { argb: 'FFFFFFFF' } };
+        sheet2.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1E40AF' } }; // Blue 800
         sheet2.getRow(1).height = 26;
         sheet2.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
         analyticsData.questionWise.forEach((q, idx) => {
@@ -516,7 +521,7 @@ export class ExcelService {
             const added = sheet2.addRow({
                 num: idx + 1,
                 text: q.questionText,
-                avg: q.avgRating,
+                avg: `${q.avgRating.toFixed(2)} / 5.0`,
                 count: q.responsesCount,
                 s5: q.distribution[5] || 0,
                 s4: q.distribution[4] || 0,
@@ -533,17 +538,19 @@ export class ExcelService {
                 cell.alignment = { vertical: 'middle', horizontal: c === 2 ? 'left' : 'center', indent: c === 2 ? 1 : 0 };
             }
         });
-        // Sheet 3: Rating Distribution
+        // ─────────────────────────────────────────────────────────────
+        // SHEET 3: Star Rating Distribution
+        // ─────────────────────────────────────────────────────────────
         const sheet3 = workbook.addWorksheet('Rating Distribution');
         sheet3.views = [{ showGridLines: true }];
         sheet3.columns = [
-            { header: 'Rating Star', key: 'star', width: 20 },
-            { header: 'Response Count', key: 'count', width: 20 },
+            { header: 'Rating Star Level', key: 'star', width: 22 },
+            { header: 'Responses Count', key: 'count', width: 20 },
             { header: 'Percentage (%)', key: 'pct', width: 20 },
         ];
-        sheet3.getRow(1).font = { name: 'Calibri', bold: true, color: { argb: 'FFFFFFFF' } };
+        sheet3.getRow(1).font = { name: 'Calibri', bold: true, size: 10.5, color: { argb: 'FFFFFFFF' } };
         sheet3.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1E40AF' } };
-        sheet3.getRow(1).height = 24;
+        sheet3.getRow(1).height = 26;
         sheet3.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
         analyticsData.ratingDistribution.forEach((rd, idx) => {
             const isZebra = idx % 2 === 1;
@@ -558,30 +565,32 @@ export class ExcelService {
                 const cell = added.getCell(c);
                 cell.border = thinBorder;
                 cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bg } };
-                cell.font = { name: 'Calibri', size: 10 };
+                cell.font = { name: 'Calibri', size: 10, bold: c === 1 };
                 cell.alignment = { vertical: 'middle', horizontal: 'center' };
             }
         });
-        // Sheet 4: Sentiment Summary
+        // ─────────────────────────────────────────────────────────────
+        // SHEET 4: Sentiment Summary Breakdown
+        // ─────────────────────────────────────────────────────────────
         const sheet4 = workbook.addWorksheet('Sentiment Summary');
         sheet4.views = [{ showGridLines: true }];
         sheet4.columns = [
-            { header: 'Sentiment Category', key: 'cat', width: 25 },
-            { header: 'Count', key: 'count', width: 18 },
-            { header: 'Percentage (%)', key: 'pct', width: 20 },
+            { header: 'Sentiment Classification', key: 'cat', width: 28 },
+            { header: 'Responses Count', key: 'count', width: 20 },
+            { header: 'Percentage Ratio (%)', key: 'pct', width: 22 },
         ];
-        sheet4.getRow(1).font = { name: 'Calibri', bold: true, color: { argb: 'FFFFFFFF' } };
+        sheet4.getRow(1).font = { name: 'Calibri', bold: true, size: 10.5, color: { argb: 'FFFFFFFF' } };
         sheet4.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1E40AF' } };
-        sheet4.getRow(1).height = 24;
+        sheet4.getRow(1).height = 26;
         sheet4.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
         const sentRows = [
-            { cat: 'Positive', count: analyticsData.sentimentSummary.positiveCount, pct: `${analyticsData.sentimentSummary.positivePct}%`, color: 'FF166534', bg: 'FFDCFCE7' },
-            { cat: 'Neutral', count: analyticsData.sentimentSummary.neutralCount, pct: `${analyticsData.sentimentSummary.neutralPct}%`, color: 'FF475569', bg: 'FFF1F5F9' },
+            { cat: 'Positive Sentiment', count: analyticsData.sentimentSummary.positiveCount, pct: `${analyticsData.sentimentSummary.positivePct}%`, color: 'FF166534', bg: 'FFDCFCE7' },
+            { cat: 'Neutral Sentiment', count: analyticsData.sentimentSummary.neutralCount, pct: `${analyticsData.sentimentSummary.neutralPct}%`, color: 'FF475569', bg: 'FFF1F5F9' },
             { cat: 'Constructive / Growth', count: analyticsData.sentimentSummary.constructiveCount, pct: `${analyticsData.sentimentSummary.constructivePct}%`, color: 'FF9A3412', bg: 'FFFEF3C7' },
         ];
         sentRows.forEach((sr) => {
             const added = sheet4.addRow({ cat: sr.cat, count: sr.count, pct: sr.pct });
-            added.height = 22;
+            added.height = 24;
             for (let c = 1; c <= 3; c++) {
                 const cell = added.getCell(c);
                 cell.border = thinBorder;
@@ -590,21 +599,23 @@ export class ExcelService {
                 cell.alignment = { vertical: 'middle', horizontal: c === 1 ? 'left' : 'center', indent: c === 1 ? 1 : 0 };
             }
         });
-        // Sheet 5: Anonymous Comments
+        // ─────────────────────────────────────────────────────────────
+        // SHEET 5: Anonymous Comments Log
+        // ─────────────────────────────────────────────────────────────
         const sheet5 = workbook.addWorksheet('Anonymous Comments');
         sheet5.views = [{ showGridLines: true }];
         sheet5.columns = [
             { header: '#', key: 'num', width: 6 },
-            { header: 'Anonymous Student Feedback', key: 'comment', width: 60 },
+            { header: 'Anonymous Student Qualitative Feedback', key: 'comment', width: 60 },
             { header: 'Sentiment', key: 'sentiment', width: 18 },
-            { header: 'Submitted Date', key: 'date', width: 18 },
+            { header: 'Submission Date', key: 'date', width: 18 },
         ];
-        sheet5.getRow(1).font = { name: 'Calibri', bold: true, color: { argb: 'FFFFFFFF' } };
+        sheet5.getRow(1).font = { name: 'Calibri', bold: true, size: 10.5, color: { argb: 'FFFFFFFF' } };
         sheet5.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1E40AF' } };
-        sheet5.getRow(1).height = 24;
+        sheet5.getRow(1).height = 26;
         sheet5.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
-        if (analyticsData.anonymousComments.length === 0) {
-            const added = sheet5.addRow({ num: 1, comment: 'No student comments submitted yet.', sentiment: 'N/A', date: 'N/A' });
+        if (!analyticsData.anonymousComments || analyticsData.anonymousComments.length === 0) {
+            const added = sheet5.addRow({ num: 1, comment: 'No qualitative student feedback comments submitted yet.', sentiment: 'N/A', date: 'N/A' });
             for (let c = 1; c <= 4; c++) {
                 added.getCell(c).border = thinBorder;
             }

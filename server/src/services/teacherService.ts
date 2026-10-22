@@ -570,6 +570,7 @@ export class TeacherService {
       questionWise: analytics.questionWise,
       ratingDistribution: analytics.ratingDistribution,
       sentimentSummary: analytics.sentimentDistribution,
+      aiInsights: analytics.aiInsights,
       anonymousComments: comments.map((c) => ({
         comment: c.userComment || '',
         sentiment: c.sentiment.label,
