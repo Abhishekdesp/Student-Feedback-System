@@ -6,9 +6,12 @@ const redisOptions = {
     maxRetriesPerRequest: null, // Required by BullMQ
     enableReadyCheck: false, // Required for serverless Redis like Upstash
     lazyConnect: true,
+    enableOfflineQueue: false, // Fail fast when disconnected; never buffer and freeze HTTP requests
+    connectTimeout: 5000, // 5s connect timeout
+    commandTimeout: 3000, // 3s command timeout
     tls: isTls ? { rejectUnauthorized: false } : undefined,
     retryStrategy(times) {
-        if (times > 10) {
+        if (times > 5) {
             return null;
         }
         return Math.min(times * 1000, 3000);
