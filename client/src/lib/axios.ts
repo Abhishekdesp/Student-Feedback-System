@@ -8,6 +8,7 @@ if (rawUrl && !rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
 export const api = axios.create({
   baseURL: `${rawUrl.replace(/\/$/, '')}/api`,
   withCredentials: true,
+  timeout: 12000,
   headers: {
     'Content-Type': 'application/json',
   },

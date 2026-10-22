@@ -25,7 +25,14 @@ const queryClient = new QueryClient({
 
 const RootRedirect: React.FC = () => {
   const { user, loading } = useAuthContext();
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[80vh] bg-slate-50">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+        <p className="mt-4 text-sm font-medium text-slate-500">Connecting to server...</p>
+      </div>
+    );
+  }
   if (!user) return <Navigate to="/login" replace />;
   if (user.role === 'student') return <Navigate to="/dashboard" replace />;
   if (user.role === 'teacher') return <Navigate to="/teacher" replace />;
