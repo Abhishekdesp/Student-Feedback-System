@@ -17,6 +17,10 @@ export const importQueue = new Queue<StudentImportJobData>(IMPORT_QUEUE_NAME, {
   },
 });
 
+importQueue.on('error', (err) => {
+  console.warn('[BullMQ Queue] Import queue warning:', err.message);
+});
+
 export async function dispatchStudentImportJob(csvContent: string, defaultYear: 'First' | 'Second' | 'Third' = 'Third') {
   if (isRedisAvailable()) {
     try {

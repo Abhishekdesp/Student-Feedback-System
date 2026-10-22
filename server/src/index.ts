@@ -22,7 +22,7 @@ async function startServer() {
 
     await seedDemoData();
 
-    const server = app.listen(env.PORT, () => {
+    const server = app.listen(env.PORT, '0.0.0.0', () => {
       console.log(`🚀 Server listening on port ${env.PORT} in ${env.NODE_ENV} mode.`);
     });
 

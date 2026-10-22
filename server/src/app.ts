@@ -22,33 +22,43 @@ import { requireAuth, requireRole } from './middleware/auth.js';
 
 const app = express();
 
-// Security Middlewares
-app.use(helmet());
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, or Postman)
-      if (!origin) return callback(null, true);
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
 
-      const allowedOrigins = [
-        env.CLIENT_URL,
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-        'https://student-feedback-system-gold-phi.vercel.app',
-      ];
+    const allowedOrigins = [
+      env.CLIENT_URL,
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+      'https://student-feedback-system-gold-phi.vercel.app',
+    ];
 
-      if (
-        allowedOrigins.includes(origin) ||
-        origin.endsWith('.vercel.app') ||
-        origin.endsWith('.onrender.com') ||
-        env.NODE_ENV !== 'production'
-      ) {
-        return callback(null, true);
-      }
-
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.onrender.com') ||
+      env.NODE_ENV !== 'production'
+    ) {
       return callback(null, true);
-    },
-    credentials: true,
+    }
+
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Content-Disposition'],
+  optionsSuccessStatus: 200,
+};
+
+// 1. CORS must run before helmet and other middleware to handle preflight OPTIONS
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+// 2. Helmet configured to allow cross-origin requests from Vercel
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
   })
 );
 app.use(cookieParser());

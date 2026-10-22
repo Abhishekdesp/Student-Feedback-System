@@ -16,6 +16,9 @@ export const sentimentQueue = new Queue(SENTIMENT_QUEUE_NAME, {
         removeOnFail: false,
     },
 });
+sentimentQueue.on('error', (err) => {
+    console.warn('[BullMQ Queue] Sentiment queue warning:', err.message);
+});
 /**
  * Dispatches sentiment analysis either asynchronously via BullMQ or falls back to synchronous processing
  */

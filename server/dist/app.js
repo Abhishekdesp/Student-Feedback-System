@@ -19,11 +19,8 @@ import teacherRoutes from './routes/teacherRoutes.js';
 import { seedDemoData } from './seed/seedDemoData.js';
 import { requireAuth, requireRole } from './middleware/auth.js';
 const app = express();
-// Security Middlewares
-app.use(helmet());
-app.use(cors({
+const corsOptions = {
     origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps, curl, or Postman)
         if (!origin)
             return callback(null, true);
         const allowedOrigins = [
@@ -41,6 +38,17 @@ app.use(cors({
         return callback(null, true);
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['Content-Disposition'],
+    optionsSuccessStatus: 200,
+};
+// 1. CORS must run before helmet and other middleware to handle preflight OPTIONS
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+// 2. Helmet configured to allow cross-origin requests from Vercel
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));

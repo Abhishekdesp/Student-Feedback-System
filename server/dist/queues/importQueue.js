@@ -9,6 +9,9 @@ export const importQueue = new Queue(IMPORT_QUEUE_NAME, {
         removeOnFail: false,
     },
 });
+importQueue.on('error', (err) => {
+    console.warn('[BullMQ Queue] Import queue warning:', err.message);
+});
 export async function dispatchStudentImportJob(csvContent, defaultYear = 'Third') {
     if (isRedisAvailable()) {
         try {

@@ -22,5 +22,8 @@ export function startImportWorker() {
     importWorker.on('failed', (job, err) => {
         console.error(`[BullMQ Worker] Student import job ${job?.id} failed:`, err.message);
     });
+    importWorker.on('error', (err) => {
+        console.warn('[BullMQ Worker] Student import worker warning:', err.message);
+    });
     return importWorker;
 }

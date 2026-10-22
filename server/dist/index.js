@@ -18,7 +18,7 @@ async function startServer() {
             console.log('⚡ BullMQ background workers initialized (sentiment-analysis, student-import).');
         }
         await seedDemoData();
-        const server = app.listen(env.PORT, () => {
+        const server = app.listen(env.PORT, '0.0.0.0', () => {
             console.log(`🚀 Server listening on port ${env.PORT} in ${env.NODE_ENV} mode.`);
         });
         const handleShutdown = async (signal) => {

@@ -28,5 +28,8 @@ export function startSentimentWorker() {
     sentimentWorker.on('failed', (job, err) => {
         console.error(`[BullMQ Worker] Job ${job?.id} failed:`, err.message);
     });
+    sentimentWorker.on('error', (err) => {
+        console.warn('[BullMQ Worker] Sentiment worker warning:', err.message);
+    });
     return sentimentWorker;
 }
